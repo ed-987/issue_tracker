@@ -44,7 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  @Override protected void configure(HttpSecurity http) throws Exception {
 		  http.authorizeRequests()
           // allow all users to access the home pages and the static images directory
-          .mvcMatchers("/", "/images/**","/homepage").permitAll()
+          .mvcMatchers("/", "/images/**").permitAll()
+          //.mvcMatchers("/user").hasRole("USERX")
+          //.and().oauth2ResourceServer().jwt().jwtAuthenticationConverter(getjwtAuthenticationConverter)
           // all other requests must be authenticated
           .anyRequest().authenticated()
           .and().oauth2Login()
@@ -53,9 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
           // customize logout handler to log out of Auth0
           .addLogoutHandler(logoutHandler)
-          .and()
-          .httpBasic()
-          .realmName("oauth2/client")
+          //.and()
+          //.httpBasic()
+          //.realmName("oauth2/client")
           ;
 	  }
 	 	

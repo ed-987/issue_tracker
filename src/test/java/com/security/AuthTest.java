@@ -17,7 +17,7 @@ import com.controller.HomeController;
 import com.controller.HomePageController;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(HomePageController.class)
+@WebMvcTest(HomeController.class)
 public class AuthTest {
 
     @Autowired
