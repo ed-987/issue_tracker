@@ -21,30 +21,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SecurityConfig(LogoutHandler logoutHandler) {
         this.logoutHandler = logoutHandler;
     }
-
-    
-	/*
-	 * @Autowired private BCryptPasswordEncoder passwordEncoder;
-	 * 
-	 * @Bean public BCryptPasswordEncoder passwordEncoder() { return new
-	 * BCryptPasswordEncoder(); }
-	 * 
-	 * @Autowired public void globalUserDetails(final AuthenticationManagerBuilder
-	 * auth) throws Exception { // @formatter:off auth.inMemoryAuthentication()
-	 * .withUser("e10002001-0@yahoo.com").password(passwordEncoder.encode("Test1234"
-	 * )).roles("USER")
-	 * //.and().withUser("tom").password(passwordEncoder.encode("111")).roles(
-	 * "ADMIN").and()
-	 * //.withUser("user1").password(passwordEncoder.encode("pass")).roles("USER").
-	 * and()
-	 * //.withUser("admin").password(passwordEncoder.encode("nimda")).roles("ADMIN")
-	 * ; }// @formatter:on
-	 */
 	
 	  @Override protected void configure(HttpSecurity http) throws Exception {
 		  http.authorizeRequests()
           // allow all users to access the home pages and the static images directory
-          .mvcMatchers("/", "/images/**").permitAll()
+          .mvcMatchers("/", "/images/**","/h2-console/**").permitAll()
           //.mvcMatchers("/user").hasRole("USERX")
           //.and().oauth2ResourceServer().jwt().jwtAuthenticationConverter(getjwtAuthenticationConverter)
           // all other requests must be authenticated
@@ -59,6 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           //.httpBasic()
           //.realmName("oauth2/client")
           ;
+		  
+		  //to access H2 console:
+          http.csrf().disable();
+	      http.headers().frameOptions().disable();
 	  }
 	 	
 }	

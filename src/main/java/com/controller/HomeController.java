@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,11 +18,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.model.User;
 import com.security.SecurityTools;
-
+import com.repository.UserRepository;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -62,6 +67,13 @@ public class HomeController {
         userInfo.put("id",    user.getAttribute("sub"));
 
         return userInfo;
+    }
+    
+    @GetMapping(path="/db")
+    public @ResponseBody Iterable<User> getAllUsers() {
+      // This returns a JSON or XML with the users
+      userRepository.save(new User("test","test@x.com"));
+      return userRepository.findAll();
     }
 
 }
