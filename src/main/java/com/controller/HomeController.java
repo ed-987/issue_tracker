@@ -2,6 +2,7 @@ package com.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -70,9 +71,11 @@ public class HomeController {
     }
     
     @GetMapping(path="/db")
-    public @ResponseBody Iterable<User> getAllUsers() {
+    public @ResponseBody List<User> getAllUsers() {
       // This returns a JSON or XML with the users
-      userRepository.save(new User("test","test@x.com"));
+      userRepository.save(new User("test","test@x.com","nick2"));
+      
+      logger.debug("output: {}",userRepository.findAll());
       return userRepository.findAll();
     }
 

@@ -27,7 +27,7 @@ public class repositoryTest {
 	    
 	@Test
 	public void getAllUsers() {
-		userRepository.save(new User("test","test@x.com"));
+		//userRepository.save(new User("test","test@x.com"));
 		logger.info("test results: {}",userRepository.findAll().toString());
 		
 	}

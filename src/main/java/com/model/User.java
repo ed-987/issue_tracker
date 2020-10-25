@@ -15,12 +15,15 @@ public class User {
 
   private String email;
   
+  private String nick;
+  
   public User() {}
   
-  public User(String name, String email) {
+  public User(String name, String email, String nick) {
 	//this.id = id;
 	this.name = name;
 	this.email = email;
+	this.nick = nick;
 }
 
 public Integer getId() {
@@ -47,10 +50,19 @@ public Integer getId() {
     this.email = email;
   }
 
+  public String getNick() {
+	return nick;
+  }
+
+  public void setNick(String nick) {
+	this.nick = nick;
+  }
+
   @Override
   public String toString() {
-	return "User [id=" + id + ", name=" + name + ", email=" + email + "]";
+	return "User [id=" + id + ", name=" + name + ", email=" + email + ", nick=" + nick + "]";
 }
+
 
   
 
