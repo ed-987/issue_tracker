@@ -56,8 +56,8 @@ public class MockMvcOAuth2Test {
     }
     
     @Test
-    public void userStatusIsOkOnHomePage() throws Exception {
-    	givenUserIsOnPage("","/");
+    public void userStatusIsOkOnTicketsPage() throws Exception {
+    	givenUserIsOnPage("","/tickets");
     	result.andExpect(status().isOk());
     }
 

@@ -1,5 +1,5 @@
-INSERT INTO User (name, email,nick)
+INSERT INTO Ticket (title, description ,user)
 VALUES
-('ed','ed@x.com','n1'),
-('ed2','ed2@x.com','nick3'),
-('pete','pete@x.com','n2');
+('t3','d1','u1'),
+('t1','d2','u3'),
+('t2','d3','u2');
