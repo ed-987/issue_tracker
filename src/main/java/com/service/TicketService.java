@@ -27,5 +27,9 @@ public class TicketService {
 		  return ticketRepository.findAll(Sort.by(Sort.Direction.ASC,sort));
 		}
 	}
+	
+	public Ticket getTicket(Integer id) {
+		return ticketRepository.findById(id).get();
+	}
 
 }

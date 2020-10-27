@@ -19,6 +19,12 @@
         
  <div class="container">
   <h2>Tickets</h2>
+  <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+ 
+  <div class="btn-group" role="group" aria-label="Third group">
+    <a href="/ticket/new" target="_blank" class="btn btn-secondary">New ticket</a>
+  </div>
+</div>
   
   <div class="table-responsive">
     <table class="table table-bordered table-hover">
@@ -28,18 +34,15 @@
 		  <th><a class="btn btn-primary " href="/tickets?sort=title">Title &#9660;</a></th>
 		  <th><a class="btn btn-primary " href="/tickets?sort=status">Status &#9660;</a></th>
 		  <th><a class="btn btn-primary " href="/tickets?sort=user">User &#9660;</a></th>
-		  <th>Description</th>
        
 		</tr>
 	  </thead>
 	  <tbody>
 		<tr th:each="ticket: ${tickets}">
 		  <td th:text="${ticket.id}" />
-	   	  <td th:text="${ticket.title}" />
+	   	  <td <a th:href="${ticket.id}" th:text="${ticket.title}" target="_blank" > </td>
 		  <td th:text="${ticket.status}" />
-		  <td th:text="${ticket.user}" />
-		  <td th:text="${ticket.description}" />  
-       
+		  <td th:text="${ticket.user}" />       
 		</tr>
 	  </tbody>
     </table>
