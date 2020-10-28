@@ -52,10 +52,15 @@ public class TicketController {
     @PostMapping(path="/ticket/save")
     @ResponseBody
     public String saveTicket(@ModelAttribute Ticket ticket) {
-
       ticketService.saveTicket(ticket);
-
       return "ticket saved";
     }
 
+    @PostMapping(path="/ticket/update")
+    @ResponseBody
+    public String updateTicket(@ModelAttribute Ticket ticket) {
+      ticketService.updateTicket(ticket);
+      return "ticket updated";
+    }
+    
 }

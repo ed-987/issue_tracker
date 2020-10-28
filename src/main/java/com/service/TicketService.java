@@ -16,8 +16,7 @@ public class TicketService {
 	TicketRepository ticketRepository;
 	
 	public void saveTicket(Ticket ticket) {
-		ticketRepository.save(ticket);
-		
+		ticketRepository.save(ticket);	
 	}
 
 	public List<Ticket> findAllTickets(String sort) {
@@ -31,5 +30,13 @@ public class TicketService {
 	public Ticket getTicket(Integer id) {
 		return ticketRepository.findById(id).get();
 	}
+
+	public void updateTicket(Ticket t) {
+	    Ticket ticket = ticketRepository.findById(t.getId()).get();
+	    ticket.setStatus(t.getStatus()); 
+        ticket.setDescription(t.getDescription()); 
+        ticketRepository.save(ticket);		
+	}
+
 
 }

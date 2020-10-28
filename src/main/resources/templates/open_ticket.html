@@ -15,9 +15,32 @@
 </style>
 </head>
     <body>
+     
+    <form th:action="@{/ticket/update}" th:object="${ticket}" method="post">
+    
+  <div class="row">
+    <div class="col-auto">
+      <label for="inlineFormInput">Ticket number</label>
+      <input type="text" class="form-control mb-2" id="inlineFormInput" th:field="*{id}" th:Placeholder="${id}" readonly>
+    </div>
+    <div class="col-auto">
+      <label for="inputTitle">Title</label>
+       <input type="text" class="form-control mb-2" id="inputTitle" th:field="*{title}" th:Placeholder="${title}" readonly>
+    </div>
+        <div class="col-auto">
+      <label for="inputStatus">Status</label>
+       <input type="text" class="form-control mb-2" id="inputStatus" th:field="*{status}" th:Placeholder="${status}">
+    </div>
+  </div>  
+ 
+     <label for="inputDescription">Description</label>
+      <textarea class="form-control" id="inputDescription" th:field="*{description}" th:Placeholder="${ticket.description}" rows="3" ></textarea>
+     
+     <input type="submit" value="Submit">
   
-      <p th:text="${ticket.id}" />
-      <p th:text="${ticket.title}" />
+</form>    
+        
+        
         
 
     </body>
