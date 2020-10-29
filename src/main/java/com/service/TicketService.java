@@ -12,6 +12,8 @@ import com.repository.TicketRepository;
 @Service
 public class TicketService {
 
+	private static final String[] statusOptions = {"New", "Pending", "Completed"};
+	
 	@Autowired
 	TicketRepository ticketRepository;
 	
@@ -36,6 +38,14 @@ public class TicketService {
 	    ticket.setStatus(t.getStatus()); 
         ticket.setDescription(t.getDescription()); 
         ticketRepository.save(ticket);		
+	}
+
+	public void deleteTicket(Integer id) {
+		ticketRepository.deleteById(id);		
+	}
+
+	public static String[] getStatusoptions() {
+		return statusOptions;
 	}
 
 

@@ -18,8 +18,10 @@ public class Ticket {
   private String user;
   
   private String status;
-  
-  public Ticket() {}
+    
+  public Ticket() {
+	this.status = "New";
+  }
   
   public Ticket(String title, String description, String user, String status) {
 	//this.id = id;

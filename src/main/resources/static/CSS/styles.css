@@ -1,0 +1,13 @@
+  body {
+     background-color: #ecf4f9;
+  }
+  th {
+    background-color: blue;
+    color: white;
+  } 
+  [data-href] {
+    cursor: pointer;
+  }
+  .navbar2-bg{
+    background-color: #dbdbdb;
+  }
