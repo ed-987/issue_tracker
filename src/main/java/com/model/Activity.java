@@ -1,5 +1,7 @@
 package com.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +18,8 @@ public class Activity {
 	private String description;
 
 	private String user;
+	
+	private Date created;
 
 	public Activity() {
 	}
@@ -55,6 +59,14 @@ public class Activity {
 	@Override
 	public String toString() {
 		return "Activities [id=" + id + ", ticketId=" + ticketId + ", description=" + description + ", user=" + user + "]";
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 }

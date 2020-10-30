@@ -16,8 +16,12 @@
 			<li class="nav-item active"><a class="nav-link" href="/">HOME</a></li>
 			<li class="nav-item"><a class="nav-link" href="/tickets">TICKETS</a> </li>
 		</ul>
-		<ul class="navbar-nav ml-auto">
-			<li class="nav-item"><a class="nav-link" href="#">Sign-out</a>
+		<ul class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
+			<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Sign-out</a>
+			</li>
+		</ul>
+	    <ul class="navbar-nav ml-auto" sec:authorize="!isAuthenticated()">
+			<li class="nav-item"><a class="nav-link" th:href="@{/oauth2/authorization/auth0}">Sign-in</a>
 			</li>
 		</ul>
 	</nav>
@@ -31,12 +35,11 @@
 	</nav>        
 
         <div sec:authorize="!isAuthenticated()">
-            <a th:href="@{/oauth2/authorization/auth0}">Log In</a>
         </div>
         <div sec:authorize="isAuthenticated()">
             <p>You are logged in!</p>
 
-                <a th:href="@{/logout}">Log Out</a>
+      
 	
         </div>
 

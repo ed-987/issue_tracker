@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.model.Activity;
 import com.model.Ticket;
+import com.service.ActivityService;
 import com.service.TicketService;
 
 @Controller
@@ -30,6 +31,9 @@ public class TicketController {
 	
 	@Autowired
 	private TicketService ticketService;
+	
+	@Autowired
+	private ActivityService activityService;
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
   
@@ -45,17 +49,22 @@ public class TicketController {
     //@ResponseBody
     public String openTicketPage(@PathVariable(required = false) Integer id ,HttpServletRequest request, Model model) {
         Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
-      	model.addAttribute("statusOptions", TicketService.getStatusoptions());
+      	Ticket ticket = new Ticket();
+    	model.addAttribute("activity",new Activity());
+        model.addAttribute("statusOptions", TicketService.getStatusoptions());
         if (inputFlashMap != null) {
         	if(inputFlashMap.get("success").equals("deleted")) {
                 model.addAttribute("ticket", inputFlashMap.get("ticket"));
         	}  else {
-				model.addAttribute("ticket", ticketService.getTicket(id));
+        		ticket=ticketService.getTicket(id);
+				model.addAttribute("ticket", ticket);
+	        	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
         	}
         } else {
-        	model.addAttribute("activity",new Activity());
         	try {
-				model.addAttribute("ticket", ticketService.getTicket(id));
+        		ticket=ticketService.getTicket(id);
+				model.addAttribute("ticket", ticket);
+	        	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
 			} catch (Exception e) {
 				return "deleted";
 			}

@@ -38,8 +38,8 @@
 				<form style="margin-bottom: 0px;" th:action="@{/ticket/delete}"
 					th:object="${ticket}" method="post">
 					<input type="submit" value="DELETE TICKET"
-						class="btn btn-secondary"> <input type="hidden" id="id"
-						th:field="*{id}">
+						class="btn btn-secondary"> 
+					<input type="hidden" id="id" th:field="*{id}">
 				</form>
 			</li>
 		</ul>
@@ -49,7 +49,7 @@
 
 		<div class="row">
 			<div class="col-sm-8 border">
-				<form class=p-5 th:action="@{/ticket/update}" th:object="${ticket}"
+				<form class="p-5" th:action="@{/ticket/update}" th:object="${ticket}"
 					method="post" id=ticketForm>
 
 					<div class="row">
@@ -82,20 +82,30 @@
 						th:field="*{description}" th:Placeholder="${ticket.description}"
 						rows="3"></textarea>
 				</form>
-
 			</div>
 			<div class="col-sm-4 border">
-			  <div class="row border">
-			    <form class=p-5 th:action="@{/activity/update}" th:object="${activity}"
-					method="post">
-					<label for="inputActivity">Activity</label>
-					<textarea class="form-control" id="inputActivity"
-						th:field="*{description}" rows="3"></textarea>
-					<input type="submit" value="Add">
-			    </form>
-			  </div>
-			  <div class="row">
-			    lk;lk;k;
+			  <div class="list-group">
+					<form class="list-group-item" th:action="@{/activity/save}"
+						th:object="${activity}" method="post">
+						<label for="inputActivity">Activity</label>
+						<textarea class="form-control" id="inputActivity"
+							th:field="*{description}" rows="3"></textarea>
+						<div class="text-right">
+						<input class="btn-info btn pull-right" type="submit" value="Add">
+						</div> 
+						<input type="hidden" th:value="${ticket.id}" name="ticketId">
+					    
+					</form>
+									
+				<div class="list-group-item" th:if="${not activityHistory.empty}">
+					<ul class="list-group">
+						<li class="list-group-item text-break" th:each="item : ${activityHistory}" >						
+						  <span class="font-weight-bold" th:text="${item.description}"></span>
+						  <h6> <small th:text="${' - user: '+item.user}"> </small></h6>
+						  <h6> <small th:text="${' - created: '+item.created}"> </small></h6>
+						</li>
+					</ul>
+				</div>
 			  </div>
 			</div>
 		</div>
