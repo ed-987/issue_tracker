@@ -9,7 +9,7 @@
   <link rel="stylesheet" type="text/css" href="/CSS/styles.css" />
 </head>
     <body>
-  
+  <div class="sticky-top">
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<ul class="navbar-nav">
 			<li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
@@ -28,7 +28,7 @@
 			</li>
 		</ul>
 	</nav>        
-        
+   </div>     
  <div class="container">
 
   <div class="table-responsive">
@@ -45,7 +45,7 @@
 	  <tbody>
 		<tr th:each="ticket: ${tickets}">
 		  <td th:text="${ticket.id}" />
-	   	  <td> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" /> </td>
+	   	  <td> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" />  </td>
 		  <td th:text="${ticket.status}" />
 		  <td th:text="${ticket.user}" />       
 		</tr>

@@ -11,9 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SecurityTools {
 	
-	public static void adminAuth(String principal) throws JsonMappingException, JsonProcessingException {
-    	String roles = principal;
-    	@SuppressWarnings("unchecked")
+	public static void adminAuth(String roles) throws JsonMappingException, JsonProcessingException {
+     	@SuppressWarnings("unchecked")
 		List<String> result = new ObjectMapper().readValue(roles, List.class);
     	if(!result.contains("ADMIN")) {throw new ForbiddenException();}
 	}

@@ -53,17 +53,21 @@
 					method="post" id=ticketForm>
 
 					<div class="row">
-						<div class="col-auto">
+						<div class="col-4">
 							<label for="inlineFormInput">Ticket number</label> <input
 								type="text" class="form-control mb-2" id="inlineFormInput"
 								th:field="*{id}" th:Placeholder="${id}" readonly>
 						</div>
-						<div class="col-auto">
+						
+						<div class="col-8">
 							<label for="inputTitle">Title</label> <input type="text"
 								class="form-control mb-2" id="inputTitle" th:field="*{title}"
 								th:Placeholder="${title}" readonly>
 						</div>
-						<div class="col-auto">
+						
+					</div>
+					<div class=row>
+						<div class="col-4">
 							<label for="inputStatus">Status</label> <select
 								class="custom-select" id="statusSelect" th:field="*{status}">
 								<option th:each="option : ${statusOptions}" th:value="${option}"
@@ -71,16 +75,20 @@
 									th:text="${option}"></option>
 							</select>
 						</div>
-						<div class="col-auto">
+						<div class="col-8">
 							<label for="inputUser">User</label> <input type="text"
 								class="form-control mb-2" id="inputUser" th:field="*{user}">
 						</div>
+					
 					</div>
-
-					<label for="inputDescription">Description</label>
-					<textarea class="form-control" id="inputDescription"
-						th:field="*{description}" th:Placeholder="${ticket.description}"
-						rows="3"></textarea>
+					<div class="row">
+						<div class="col-auto w-100">
+							<label for="inputDescription">Description</label>
+							<textarea class="form-control" id="inputDescription"
+							th:field="*{description}" th:Placeholder="${ticket.description}"
+							rows="3"></textarea>
+						</div>
+					</div>
 				</form>
 			</div>
 			<div class="col-sm-4 border">

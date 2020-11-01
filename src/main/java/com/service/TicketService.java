@@ -1,5 +1,6 @@
 package com.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,14 @@ public class TicketService {
 
 	public static String[] getStatusoptions() {
 		return statusOptions;
+	}
+
+	public HashMap<String, String>  getDashboard(String user) {
+	    HashMap<String, String> dashboard = new HashMap<String, String>();
+		dashboard.put("allTickets", String.valueOf(ticketRepository.findAll().size()));
+		dashboard.put("myTickets", String.valueOf(ticketRepository.findByUser(user).size()));
+		dashboard.put("myNewTickets", String.valueOf(ticketRepository.findByUserAndStatus(user,"New").size()));
+		return dashboard;
 	}
 
 

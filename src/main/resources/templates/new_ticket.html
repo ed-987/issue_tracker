@@ -40,33 +40,43 @@
 		<form class=p-5 th:action="@{/ticket/save}" th:object="${ticket}"
 			method="post" id="ticketForm">
 
-			<div class="row">
-				<div class="col-auto">
-					<label for="inlineFormInput">Ticket number</label> <input
-						type="text" class="form-control mb-2" id="inlineFormInput"
-						Placeholder="will be auto-generated" readonly>
-				</div>
-				<div class="col-auto">
-					<label for="inputTitle">Title</label> <input type="text"
-						class="form-control mb-2" id="inputTitle" th:field="*{title}">
-				</div>
-				<div class="col-auto">
-					<label for="inputStatus">Status</label> <select
-						class="custom-select" id="statusSelect" th:field="*{status}">
-						<option th:each="option : ${statusOptions}" th:value="${option}"
-							th:selected="*{status} ==${option}?true:false"
-							th:text="${option}"></option>
-					</select>
-				</div>
-				<div class="col-auto">
-					<label for="inputUser">User</label> <input type="text"
-						class="form-control mb-2" id="inputUser" th:field="*{user}">
-				</div>
-			</div>
+					<div class="row">
+						<div class="col-4">
+							<label for="inlineFormInput">Ticket number</label> <input
+								type="text" class="form-control mb-2" id="inlineFormInput"
+								th:field="*{id}" Placeholder="auto-generated" readonly>
+						</div>
+						
+						<div class="col-8">
+							<label for="inputTitle">Title</label> <input type="text"
+								class="form-control mb-2" id="inputTitle" th:field="*{title}">
+						</div>
+						
+					</div>
+					<div class=row>
+						<div class="col-4">
+							<label for="inputStatus">Status</label> <select
+								class="custom-select" id="statusSelect" th:field="*{status}">
+								<option th:each="option : ${statusOptions}" th:value="${option}"
+									th:selected="*{status} ==${option}?true:false"
+									th:text="${option}" disabled></option>
+							</select>
+						</div>
+						<div class="col-8">
+							<label for="inputUser">User</label> <input type="text"
+								class="form-control mb-2" id="inputUser" th:field="*{user}">
+						</div>
+					
+					</div>
+					<div class="row">
+						<div class="col-auto w-100">
+							<label for="inputDescription">Description</label>
+							<textarea class="form-control" id="inputDescription"
+							th:field="*{description}" th:Placeholder="${ticket.description}"
+							rows="3"></textarea>
+						</div>
+					</div>
 
-			<label for="inputDescription">Description</label>
-			<textarea class="form-control" id="inputDescription"
-				th:field="*{description}" rows="3"></textarea>
 
 		</form>
 
