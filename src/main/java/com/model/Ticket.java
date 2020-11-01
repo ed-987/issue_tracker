@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.data.annotation.Transient;
+
 @Entity // This tells Hibernate to make a table out of this class
 public class Ticket {
   @Id
@@ -18,6 +20,9 @@ public class Ticket {
   private String user;
   
   private String status;
+  
+  @Transient
+  private Boolean flag;
     
   public Ticket() {
 	this.status = "New";
@@ -69,13 +74,21 @@ public Integer getId() {
 
   public void setStatus(String status) {
 	this.status = status;
-  }
+  }		
 
-  @Override
-  public String toString() {
+@Override
+public String toString() {
 	return "Ticket [id=" + id + ", title=" + title + ", description=" + description + ", user=" + user + ", status="
-			+ status + "]";
-  }
+			+ status + ", flag=" + flag + "]";
+}
+
+public Boolean getFlag() {
+	return flag;
+}
+
+public void setFlag(Boolean flag) {
+	this.flag = flag;
+}
 
 
 }

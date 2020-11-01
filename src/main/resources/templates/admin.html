@@ -32,9 +32,15 @@
  <div class="container">
 
   <div class="table-responsive">
+  				<form class="p-5" th:action="@{/admin/delete}" th:object="${form}"
+					method="post" id=adminForm>
+<!-- 	<fieldset> -->
     <table class="table table-bordered table-hover">
 	 <thead>
 		<tr>
+		  <th>
+		  	<input class="btn btn-secondary" type="submit" value="DELETE TICKETS" />
+		  </th>
 		  <th><a class="btn btn-primary " href="/tickets?sort=id">Id &#9660;</a></th>
 		  <th><a class="btn btn-primary " href="/tickets?sort=title">Title &#9660;</a></th>
 		  <th><a class="btn btn-primary " href="/tickets?sort=status">Status &#9660;</a></th>
@@ -43,14 +49,26 @@
 		</tr>
 	  </thead>
 	  <tbody>
-		<tr th:each="ticket: ${tickets}">
-		  <td th:text="${ticket.id}" />
-	   	  <td> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" />  </td>
-		  <td th:text="${ticket.status}" />
-		  <td th:text="${ticket.user}" />       
+	   
+		<tr th:each="ticket, itemStat: *{tickets}">
+		  <td>
+		  
+		      <input type="checkbox" th:field="*{tickets[__${itemStat.index}__].flag}" />
+		  </td>
+		  <td>
+		    <input th:field="*{tickets[__${itemStat.index}__].id}" readonly/>
+		  </td>
+		  <td th:text="*{tickets[__${itemStat.index}__].title}" />
+		  <!-- 	   	  <td> <a th:href="${'/ticket/open/'}" th:text="${tickets[__${itemStat.index}__].id}" />  </td> -->
+		  
+ 		  <td th:text="*{tickets[__${itemStat.index}__].status}" />
+ 		  <td th:text="*{tickets[__${itemStat.index}__].user}" />
+
 		</tr>
 	  </tbody>
     </table>
+<!--     </fieldset> -->
+    </form>
   </div>
 </div>
         

@@ -57,5 +57,14 @@ public class TicketService {
 		return dashboard;
 	}
 
+	public void deleteTickets(List<Ticket> tickets) {
+        for (int i = 0; i <= tickets.size()-1; i++) {
+        	if(tickets.get(i).getFlag()) {
+              deleteTicket(tickets.get(i).getId());
+        	}
+        }
+		
+	}
+
 
 }
