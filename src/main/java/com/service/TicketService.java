@@ -13,7 +13,7 @@ import com.repository.TicketRepository;
 @Service
 public class TicketService {
 
-	private static final String[] statusOptions = {"New", "Pending", "Completed"};
+	private static final String[] statusOptions = {"New", "In progress", "Pending", "Completed", "Closed"};
 	
 	@Autowired
 	TicketRepository ticketRepository;

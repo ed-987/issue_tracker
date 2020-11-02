@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,7 +53,8 @@ public class AdminController {
 //    @ResponseBody
     public String admin(@AuthenticationPrincipal OAuth2User principal,HttpServletResponse response, @RequestParam(required = false) String sort ,Model model) throws IOException{
     	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
-    
+		String user = principal.getAttribute("email");
+		model.addAttribute("user",user);
     	TicketsCreationDto ticketsForm = new TicketsCreationDto();
     	List<Ticket> tickets=ticketService.findAllTickets(sort);
     	//tickets.add(new Ticket());
@@ -65,24 +67,15 @@ public class AdminController {
         
     }
     
-//    @PostMapping("/admin/delete")
-//    @ResponseBody
-//    public String delete(@AuthenticationPrincipal OAuth2User principal,HttpServletResponse response,Model model, @ModelAttribute List<Ticket> tickets) throws IOException{
-////    	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
-////        logger.debug("outp:{}", tickets.toString());
-//        //model.addAttribute("tickets", ticketService.findAllTickets(sort));
-//    	return "ok";
-//        
-//    }
-    
     @PostMapping("/admin/delete")
-    @ResponseBody
-    public String delete(@ModelAttribute TicketsCreationDto form) {
-//    	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
+    //@ResponseBody
+    public String delete(@ModelAttribute TicketsCreationDto form, RedirectAttributes redir, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+    	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
         logger.debug("outp:{}", form.getTickets().toString());
         //model.addAttribute("tickets", ticketService.findAllTickets(sort));
         ticketService.deleteTickets(form.getTickets());
-    	return "ok";
+        redir.addFlashAttribute("success", "deleted");
+        return "redirect:/admin";
         
     }
 	

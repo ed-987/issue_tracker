@@ -39,7 +39,9 @@ public class HomeController {
     public String home(Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
     	model.addAttribute("admin",false);
     	if(principal != null) {
-    		model.addAttribute("dashboard",ticketService.getDashboard(principal.getAttribute("email")));
+    		String user = principal.getAttribute("email");
+    		model.addAttribute("user",user);
+    		model.addAttribute("dashboard",ticketService.getDashboard(user));
             String roles = principal.getAttribute("http://role/").toString();
          	@SuppressWarnings("unchecked")
     		List<String> result = new ObjectMapper().readValue(roles, List.class);
