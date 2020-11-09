@@ -30,6 +30,11 @@
 				<a href="/ticket/new" class="btn btn-secondary">New ticket</a>
 			</li>
 		</ul>
+    <form class="form-inline my-2 my-lg-0 ml-auto" th:action="@{/tickets}" method="get">
+      <input class="form-control mr-sm-2" name="filter" th:value="${filter}" type="search" placeholder="Search" aria-label="Search">
+      <input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}"/>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
 	</nav>        
    </div>     
  <div class="container">
@@ -37,11 +42,11 @@
   <div class="table-responsive">
     <table class="table table-bordered table-hover">
 	 <thead>
-		<tr>
-		  <th><a class="btn btn-primary " href="/tickets?sort=id">Id &#9660;</a></th>
-		  <th><a class="btn btn-primary " href="/tickets?sort=title">Title &#9660;</a></th>
-		  <th><a class="btn btn-primary " href="/tickets?sort=status">Status &#9660;</a></th>
-		  <th><a class="btn btn-primary " href="/tickets?sort=user">User &#9660;</a></th>
+		<tr th:with="add_filter=${filter != null} ? ${'filter='+filter+'&'} : ''">
+		  <th><a class="btn btn-primary " th:href="${'/tickets?'+add_filter+'sort=id'}">Id &#9660;</a></th>
+		  <th><a class="btn btn-primary " th:href="${'/tickets?'+add_filter+'sort=title'}">Title &#9660;</a></th>
+		  <th><a class="btn btn-primary " th:href="${'/tickets?'+add_filter+'sort=status'}">Status &#9660;</a></th>
+		  <th><a class="btn btn-primary " th:href="${'/tickets?'+add_filter+'sort=user'}">User &#9660;</a></th>
        
 		</tr>
 	  </thead>

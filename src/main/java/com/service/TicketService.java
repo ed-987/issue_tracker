@@ -22,12 +22,21 @@ public class TicketService {
 		ticketRepository.save(ticket);	
 	}
 
-	public List<Ticket> findAllTickets(String sort) {
-		if(sort==null) {
-	      return ticketRepository.findAll();
-		}else {
-		  return ticketRepository.findAll(Sort.by(Sort.Direction.ASC,sort));
+	public List<Ticket> findAllTickets(String filter, String sort) {
+		Integer id;
+		try {
+		    id=Integer.parseInt(filter);
+		} catch (NumberFormatException e) {
+			id=0;
 		}
+		if(filter == null) {filter="";}
+		if(sort == null) {sort="id";}
+		return ticketRepository.findByAndSort(id, filter, Sort.by(Sort.Direction.ASC,sort));
+//		if(sort==null) {
+//	      return ticketRepository.findAll();
+//		}else {
+//		  return ticketRepository.findAll(Sort.by(Sort.Direction.ASC,sort));
+//		}
 	}
 	
 	public Ticket getTicket(Integer id) {

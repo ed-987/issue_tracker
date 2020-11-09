@@ -42,9 +42,11 @@ public class TicketController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
   
     @GetMapping(path="/tickets")
-    public String ticketsPage(@RequestParam(required = false) String sort ,Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+    public String ticketsPage(@RequestParam(required = false) String sort ,@RequestParam(required = false) String filter, Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
       model.addAttribute("admin",false);
-      model.addAttribute("tickets", ticketService.findAllTickets(sort));
+      model.addAttribute("tickets", ticketService.findAllTickets(filter, sort));
+      model.addAttribute("sort", sort);
+      model.addAttribute("filter", filter);
   	  if(principal != null) {
 		String user = principal.getAttribute("email");
 		model.addAttribute("user",user);

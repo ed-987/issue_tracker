@@ -56,7 +56,7 @@ public class AdminController {
 		String user = principal.getAttribute("email");
 		model.addAttribute("user",user);
     	TicketsCreationDto ticketsForm = new TicketsCreationDto();
-    	List<Ticket> tickets=ticketService.findAllTickets(sort);
+    	List<Ticket> tickets=ticketService.findAllTickets(null, sort);
     	//tickets.add(new Ticket());
         for (int i = 0; i <= tickets.size()-1; i++) {
             ticketsForm.addTicket(tickets.get(i));

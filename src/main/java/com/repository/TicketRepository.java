@@ -2,7 +2,9 @@ package com.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +19,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	
 	List<Ticket> findByUser(String user);
 	List<Ticket> findByUserAndStatus(String user, String status);
+	
+	@Query("SELECT t FROM Ticket t WHERE t.id = ?1 OR t.title LIKE %?2%")
+	List<Ticket> findByAndSort(Integer id, String title, Sort sort);
 
 }
