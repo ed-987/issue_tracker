@@ -47,6 +47,7 @@ public class TicketService {
 	    Ticket ticket = ticketRepository.findById(t.getId()).get();
 	    ticket.setStatus(t.getStatus()); 
         ticket.setDescription(t.getDescription()); 
+        ticket.setUser(t.getUser()); 
         ticketRepository.save(ticket);		
 	}
 

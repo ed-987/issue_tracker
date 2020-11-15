@@ -30,7 +30,7 @@
 
 		<ul class="navbar-nav mx-auto">
 			<li class="nav-item">
-			  <input class="btn btn-secondary" type="submit" value="SAVE TICKET" form="ticketForm" />
+			  <input class="btn btn-secondary" type="submit" value="SAVE TICKET" form="ticketForm" th:disabled="${ticket.status=='Closed'}"/>
 			</li>
 		</ul>
 
@@ -38,7 +38,7 @@
 			<li class="nav-item">
 				<form style="margin-bottom: 0px;" th:action="@{/ticket/delete}"
 					th:object="${ticket}" method="post">
-					<input type="submit" value="CLOSE TICKET"
+					<input type="submit" value="CLOSE TICKET" th:disabled="${ticket.status=='Closed'}"
 						class="btn btn-secondary"> 
 					<input type="hidden" id="id" th:field="*{id}">
 				</form>
@@ -69,8 +69,8 @@
 					</div>
 					<div class=row>
 						<div class="col-4">
-							<label for="inputStatus">Status</label> <select
-								class="custom-select" id="statusSelect" th:field="*{status}">
+							<label for="inputStatus">Status</label> 
+							<select class="custom-select" id="statusSelect" th:field="*{status}" th:disabled="*{status=='Closed'}">
 								<option th:each="option : ${statusOptions}" th:value="${option}"
 									th:selected="*{status} ==${option}?true:false"
 									th:text="${option}"></option>
@@ -78,7 +78,7 @@
 						</div>
 						<div class="col-8">
 							<label for="inputUser">User</label> <input type="text"
-								class="form-control mb-2" id="inputUser" th:field="*{user}">
+								class="form-control mb-2" id="inputUser" th:field="*{user}" th:readonly="*{status=='Closed'}">
 						</div>
 					
 					</div>
@@ -87,7 +87,7 @@
 							<label for="inputDescription">Description</label>
 							<textarea class="form-control" id="inputDescription"
 							th:field="*{description}" th:Placeholder="${ticket.description}"
-							rows="3"></textarea>
+							rows="3" th:readonly="*{status=='Closed'}"></textarea>
 						</div>
 					</div>
 				</form>

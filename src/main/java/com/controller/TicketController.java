@@ -102,7 +102,7 @@ public class TicketController {
 
     @PostMapping(path="/ticket/update")
     public String updateTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
-      logger.debug("outp: {}",ticket.toString());
+      logger.debug("outp-ticket_update: {}",ticket.toString());
       ticketService.updateTicket(ticket);
       redir.addFlashAttribute("success", "updated");
       return "redirect:/ticket/open/"+ticket.getId().toString();
@@ -112,8 +112,9 @@ public class TicketController {
     //@ResponseBody
     public String deleteTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir, Model model) {
       //redir.addFlashAttribute("ticket", ticketService.getTicket(ticket.getId()));
-      ticket.setStatus("Closed");
-      ticketService.saveTicket(ticket);
+      Ticket t=ticketService.getTicket(ticket.getId());
+      t.setStatus("Closed");
+      ticketService.saveTicket(t);
       redir.addFlashAttribute("success", "closed");
       return "redirect:/ticket/open/"+ticket.getId().toString();
     }

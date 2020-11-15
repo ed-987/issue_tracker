@@ -9,37 +9,41 @@
   <link rel="stylesheet" type="text/css" href="/CSS/styles.css" />
 </head>
     <body>
-  <div class="sticky-top">
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<ul class="navbar-nav">
-			<li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
-			<li class="nav-item active"><a class="nav-link" href="/tickets">TICKETS</a> </li>
-			<li th:if="${admin}" class="nav-item"><a class="nav-link" href="/admin">ADMIN</a>
-			
-		</ul>
-		<ul class="navbar-nav ml-auto">
-		    <li class="nav-item navbar-text" th:text="${user}"></li>
-		    <li class="nav-item active"><a class="nav-link" th:href="@{/logout}">Sign-out</a>
-			</li>
-		</ul>
-	</nav>
-	      
-	<nav class="navbar navbar-expand-sm navbar-light navbar2-bg">
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a href="/ticket/new" class="btn btn-secondary">New ticket</a>
-			</li>
-		</ul>
-    <form class="form-inline my-2 my-lg-0 ml-auto" th:action="@{/tickets}" method="get">
-      <input class="form-control mr-sm-2" name="filter" th:value="${filter}" type="search" placeholder="Search" aria-label="Search">
-      <input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}"/>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-	</nav>        
-   </div>     
- <div class="container">
+    
+	<div class="sticky-top">
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
+				<li class="nav-item active"><a class="nav-link" href="/tickets">TICKETS</a>
+				</li>
+				<li th:if="${admin}" class="nav-item"><a class="nav-link"
+					href="/admin">ADMIN</a>
+			</ul>
+			<form class="form-inline my-2 my-lg-0 ml-auto"
+				th:action="@{/tickets}" method="get">
+				<input class="form-control mr-sm-2" name="filter"
+					th:value="${filter}" type="search" placeholder="Search"
+					aria-label="Search"> <input th:if="${sort != null}"
+					type="hidden" name="sort" th:value="${sort}" />
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item navbar-text" th:text="${user}"></li>
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/logout}">Sign-out</a></li>
+			</ul>
+		</nav>
 
-  <div class="table-responsive">
+		<nav class="navbar navbar-expand-sm navbar-light navbar2-bg">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a href="/ticket/new"
+					class="btn btn-secondary">New ticket</a></li>
+			</ul>
+		</nav>
+	</div>
+	<div class="container">
+
+  <div class="table-responsive tableFixHead">
     <table class="table table-bordered table-hover">
 	 <thead>
 		<tr th:with="add_filter=${filter != null} ? ${'filter='+filter+'&'} : ''">

@@ -38,7 +38,7 @@
 	</div>
 	<div class="container">
 
-		<div class="table-responsive">
+		<div class="table-responsive tableFixHead">
 			<form th:action="@{/admin/delete}" th:object="${form}"
 				method="post" id=adminForm>
 				<!-- 	<fieldset> -->
@@ -46,7 +46,7 @@
 					<thead>
 						<tr>
 							<th class="text-center"><input class="btn btn-secondary" type="submit"
-								value="DELETE TICKETS" /></th>
+								value="DELETE" /></th>
 							<th><a class="btn btn-primary " href="/tickets?sort=id">Id
 									&#9660;</a></th>
 							<th><a class="btn btn-primary " href="/tickets?sort=title">Title
