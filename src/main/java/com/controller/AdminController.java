@@ -51,17 +51,20 @@ public class AdminController {
     
     @GetMapping("/admin")
 //    @ResponseBody
-    public String admin(@AuthenticationPrincipal OAuth2User principal,HttpServletResponse response, @RequestParam(required = false) String sort ,Model model) throws IOException{
+    public String admin(@AuthenticationPrincipal OAuth2User principal,HttpServletResponse response, @RequestParam(required = false) String sort ,
+    		@RequestParam(required = false) String filter, Model model) throws IOException{
     	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
 		String user = principal.getAttribute("email");
 		model.addAttribute("user",user);
     	TicketsCreationDto ticketsForm = new TicketsCreationDto();
-    	List<Ticket> tickets=ticketService.findAllTickets(null, sort);
+    	List<Ticket> tickets=ticketService.findAllTickets(filter, sort);
     	//tickets.add(new Ticket());
         for (int i = 0; i <= tickets.size()-1; i++) {
             ticketsForm.addTicket(tickets.get(i));
         }
 	    model.addAttribute("form", ticketsForm);
+	    model.addAttribute("sort", sort);
+	    model.addAttribute("filter", filter);
         //model.addAttribute("tickets", ticketService.findAllTickets(sort));
     	return "admin";
         
@@ -79,5 +82,42 @@ public class AdminController {
         
     }
 	
-	
+    @GetMapping(path="/admin/open/{id}")
+    public String adminTicketPage(@PathVariable(required = false) Integer id ,HttpServletRequest request, Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+    	model.addAttribute("activity",new Activity());
+        model.addAttribute("statusOptions", TicketService.getStatusoptions());
+        if(principal != null) {
+    		String user = principal.getAttribute("email");
+    		model.addAttribute("user",user);
+            String roles = principal.getAttribute("http://role/").toString();
+          	@SuppressWarnings("unchecked")
+     		List<String> result = new ObjectMapper().readValue(roles, List.class);
+         	if(result.contains("ADMIN")) {
+         		model.addAttribute("admin",true);
+         	}
+    	}
+        Ticket ticket=ticketService.getTicket(id);
+		model.addAttribute("ticket", ticket);
+    	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
+        return "admin_ticket";
+    }
+    
+    @PostMapping(path="/admin/update")
+    public String adminUpdateTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
+      logger.debug("outp-ticket_update: {}",ticket.toString());
+      ticketService.updateTicket(ticket);
+      redir.addFlashAttribute("success", "updated");
+      return "redirect:/admin/open/"+ticket.getId().toString();
+    }
+    
+    @PostMapping(path="/admin/close")
+    //@ResponseBody
+    public String adminCloseTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir, Model model) {
+      //redir.addFlashAttribute("ticket", ticketService.getTicket(ticket.getId()));
+      Ticket t=ticketService.getTicket(ticket.getId());
+      t.setStatus("Closed");
+      ticketService.saveTicket(t);
+      redir.addFlashAttribute("success", "closed");
+      return "redirect:/admin/open/"+ticket.getId().toString();
+    }
 }

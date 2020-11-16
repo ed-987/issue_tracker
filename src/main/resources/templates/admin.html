@@ -22,6 +22,14 @@
 				</li>
 				<li class="nav-item active"><a class="nav-link" href="/admin">ADMIN</a>
 			</ul>
+			<form class="form-inline my-2 my-lg-0 ml-auto"
+				th:action="@{/admin}" method="get">
+				<input class="form-control mr-sm-2" name="filter"
+					th:value="${filter}" type="search" placeholder="Search"
+					aria-label="Search"> <input th:if="${sort != null}"
+					type="hidden" name="sort" th:value="${sort}" />
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item navbar-text" th:text="${user}"></li>
 				<li class="nav-item active"><a class="nav-link"
@@ -30,9 +38,13 @@
 		</nav>
 
 		<nav class="navbar navbar-expand-sm navbar-light navbar2-bg">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a href="/ticket/new"
-					class="btn btn-secondary">New ticket</a></li>
+			<ul class="navbar-nav mx-auto">
+				<li class="nav-item">
+				  <!-- Button trigger modal -->
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">
+  						DELETE SELECTED
+					</button>
+				</li>
 			</ul>
 		</nav>
 	</div>
@@ -44,16 +56,15 @@
 				<!-- 	<fieldset> -->
 				<table class="table table-bordered table-hover">
 					<thead>
-						<tr>
-							<th class="text-center"><input class="btn btn-secondary" type="submit"
-								value="DELETE" /></th>
-							<th><a class="btn btn-primary " href="/tickets?sort=id">Id
+						<tr th:with="add_filter=${filter != null} ? ${'filter='+filter+'&'} : ''">
+							<th></th>
+							<th><a class="btn btn-primary " th:href="${'/admin?'+add_filter+'sort=id'}">Id
 									&#9660;</a></th>
-							<th><a class="btn btn-primary " href="/tickets?sort=title">Title
+							<th><a class="btn btn-primary " th:href="${'/admin?'+add_filter+'sort=title'}">Title
 									&#9660;</a></th>
-							<th><a class="btn btn-primary " href="/tickets?sort=status">Status
+							<th><a class="btn btn-primary " th:href="${'/admin?'+add_filter+'sort=status'}">Status
 									&#9660;</a></th>
-							<th><a class="btn btn-primary " href="/tickets?sort=user">User
+							<th><a class="btn btn-primary " th:href="${'/admin?'+add_filter+'sort=user'}">User
 									&#9660;</a></th>
 						</tr>
 					</thead>
@@ -63,8 +74,8 @@
 								th:field="*{tickets[__${itemStat.index}__].flag}" /></td>
 							<td th:text="*{tickets[__${itemStat.index}__].id}" />
 							<input type="hidden" th:field="*{tickets[__${itemStat.index}__].id}" />
-							<td th:text="*{tickets[__${itemStat.index}__].title}" />
-							<!-- 	   	  <td> <a th:href="${'/ticket/open/'}" th:text="${tickets[__${itemStat.index}__].id}" />  </td> -->
+<!-- 							<td th:text="*{tickets[__${itemStat.index}__].title}" /> -->
+							<td> <a th:href="*{'/admin/open/'+tickets[__${itemStat.index}__].id}" th:text="*{tickets[__${itemStat.index}__].title}" />  </td>
 							<td th:text="*{tickets[__${itemStat.index}__].status}" />
 							<td th:text="*{tickets[__${itemStat.index}__].user}" />
 						</tr>
@@ -77,6 +88,27 @@
 		<div class="alert alert-primary" role="alert" th:text="${success}"
 			th:if="${success}"></div>
 	</div>
+	
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure, you want to delete the selected items?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+         <input class="btn btn-primary" type="submit" value="Yes, delete them!" form="adminForm"/>
+       </div>
+    </div>
+  </div>
+</div>
 
 
 </body>

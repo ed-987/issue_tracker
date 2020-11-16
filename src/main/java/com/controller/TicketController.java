@@ -61,12 +61,18 @@ public class TicketController {
     }
     
     @GetMapping(path="/ticket/open/{id}")
-    public String openTicketPage(@PathVariable(required = false) Integer id ,HttpServletRequest request, Model model, @AuthenticationPrincipal OAuth2User principal) {
+    public String openTicketPage(@PathVariable(required = false) Integer id ,HttpServletRequest request, Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
     	model.addAttribute("activity",new Activity());
         model.addAttribute("statusOptions", TicketService.getStatusoptions());
         if(principal != null) {
     		String user = principal.getAttribute("email");
     		model.addAttribute("user",user);
+            String roles = principal.getAttribute("http://role/").toString();
+          	@SuppressWarnings("unchecked")
+     		List<String> result = new ObjectMapper().readValue(roles, List.class);
+         	if(result.contains("ADMIN")) {
+         		model.addAttribute("admin",true);
+         	}
     	}
         Ticket ticket=ticketService.getTicket(id);
 		model.addAttribute("ticket", ticket);
@@ -108,9 +114,9 @@ public class TicketController {
       return "redirect:/ticket/open/"+ticket.getId().toString();
     }
     
-    @PostMapping(path="/ticket/delete")
+    @PostMapping(path="/ticket/close")
     //@ResponseBody
-    public String deleteTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir, Model model) {
+    public String closeTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir, Model model) {
       //redir.addFlashAttribute("ticket", ticketService.getTicket(ticket.getId()));
       Ticket t=ticketService.getTicket(ticket.getId());
       t.setStatus("Closed");
