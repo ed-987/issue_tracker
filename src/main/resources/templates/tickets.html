@@ -67,6 +67,17 @@
   </div>
 </div>
         
+<script th:inline="javascript">
+    if([[${dark_mode}]]){
+      localStorage.setItem('darkSwitch', 'dark');
+    }else{
+      localStorage.removeItem('darkSwitch');
+    }
+</script>
+<div class="custom-control custom-switch">
+  <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+</div>
+<script src="/JS/dark-mode-switch.js"></script>
 
-    </body>
+</body>
 </html>

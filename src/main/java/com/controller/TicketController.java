@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.Activity;
 import com.model.Ticket;
 import com.service.ActivityService;
+import com.service.ScreenService;
 import com.service.TicketService;
 
 @Controller
@@ -57,6 +58,7 @@ public class TicketController {
      		model.addAttribute("admin",true);
      	}
   	  }
+  	  model.addAttribute("dark_mode",ScreenService.dark_mode);
       return "tickets";
     }
     

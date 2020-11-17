@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.Activity;
 import com.security.ForbiddenException;
 import com.security.SecurityTools;
+import com.service.ScreenService;
 import com.service.TicketService;
 
 @Controller
@@ -49,6 +50,8 @@ public class HomeController {
         		model.addAttribute("admin",true);
         	}
     	}
+		model.addAttribute("dark_mode",ScreenService.dark_mode);
+
         return "index";
     }
 
