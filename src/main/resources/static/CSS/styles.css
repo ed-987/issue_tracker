@@ -1,6 +1,67 @@
-body {
-	background-color: #ecf4f9;
+:root {
+  --color-bg: #ecf4f9;
+  --color-bg-th: #343a40;
+  --color-a: #d2d6da;
 }
+
+[data-theme="dark"] {
+  --color-bg: #000000;
+  --color-font: yellow;
+  --color-bg-th: #343a40;
+  --color-a: #d2d6da;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-font);
+}
+
+/* [data-theme="dark"] body { */
+/*   background-color: #000000 !important; */
+/*   color: white !important;  */
+/* } */
+
+[data-theme="dark"] th {
+  background-color: #343a40 !important;
+}
+
+[data-theme="dark"] .navbar-light {
+  background-color: #595a5a !important;
+}
+
+[data-theme="dark"] .btn-primary {
+  background-color: #6c757d !important;
+/*   border-color: #6c757d !important; */
+}
+
+[data-theme="dark"] H2 {
+  color: white !important;
+}
+[data-theme="dark"] td {
+  color: white !important;
+}
+[data-theme="dark"] .btn {
+  color: white !important;
+  border-color: #cac9c9 !important;
+}
+
+[data-theme="dark"] .modal-header {
+  background-color: #617979 !important;
+}
+
+[data-theme="dark"] .modal-body {
+  background-color: #617979 !important;
+  color: white !important;
+}
+[data-theme="dark"] .modal-footer {
+  background-color: #617979 !important;
+}
+[data-theme="dark"] .modal-title {
+  color: white !important;
+}
+
+
+
 
 th {
 	background-color: blue;
@@ -30,12 +91,12 @@ H6 {
 	top: 0;
 }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-font);
-}
 
-[data-theme="dark"] {
-  --color-bg: #000000;
-  --color-font: yellow;
-}
+
+/* th { */
+/* 	background-color: var(--color-bg-th); */
+/* } */
+/* a{ */
+/* 	color: var(--color-a); */
+/* } */
+

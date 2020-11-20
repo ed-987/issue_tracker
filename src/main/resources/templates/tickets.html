@@ -1,5 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
+ 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -7,9 +8,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/CSS/styles.css" />
+  
+      
 </head>
     <body>
-    
+
+	<script th:inline="javascript">
+    if([[${dark_mode}]]){
+      document.body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('darkSwitch', 'dark');
+    }else{
+      localStorage.removeItem('darkSwitch');
+    }
+   </script>
+
 	<div class="sticky-top">
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 			<ul class="navbar-nav">
@@ -67,17 +79,11 @@
   </div>
 </div>
         
-<script th:inline="javascript">
-    if([[${dark_mode}]]){
-      localStorage.setItem('darkSwitch', 'dark');
-    }else{
-      localStorage.removeItem('darkSwitch');
-    }
-</script>
-<div class="custom-control custom-switch">
+<div class="custom-control custom-switch" style="display: none;">
   <input type="checkbox" class="custom-control-input" id="darkSwitch" />
 </div>
 <script src="/JS/dark-mode-switch.js"></script>
+
 
 </body>
 </html>

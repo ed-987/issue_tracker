@@ -16,6 +16,16 @@
 
 <body>
 
+	<script th:inline="javascript">
+    if([[${dark_mode}]]){
+      document.body.setAttribute('data-theme', 'dark');
+      localStorage.setItem('darkSwitch', 'dark');
+    }else{
+      localStorage.removeItem('darkSwitch');
+    }
+   </script>
+
+
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<ul class="navbar-nav">
 			<li class="nav-item active"><a class="nav-link" href="/">HOME</a></li>
@@ -100,13 +110,6 @@
   </div>
 </div>
 
-<script th:inline="javascript">
-    if([[${dark_mode}]]){
-      localStorage.setItem('darkSwitch', 'dark');
-    }else{
-      localStorage.removeItem('darkSwitch');
-    }
-</script>
 <div class="custom-control custom-switch">
 <!--   <input type="checkbox" class="custom-control-input" id="darkSwitch" /> -->
 <!--   <label class="custom-control-label" for="darkSwitch">Dark Mode</label> -->

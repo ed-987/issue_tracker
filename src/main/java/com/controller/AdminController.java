@@ -36,6 +36,7 @@ import com.model.TicketsCreationDto;
 import com.security.ForbiddenException;
 import com.security.SecurityTools;
 import com.service.ActivityService;
+import com.service.ScreenService;
 import com.service.TicketService;
 
 @Controller
@@ -66,6 +67,7 @@ public class AdminController {
 	    model.addAttribute("sort", sort);
 	    model.addAttribute("filter", filter);
         //model.addAttribute("tickets", ticketService.findAllTickets(sort));
+   	    model.addAttribute("dark_mode",ScreenService.dark_mode);
     	return "admin";
         
     }
