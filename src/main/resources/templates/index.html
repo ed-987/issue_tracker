@@ -12,17 +12,22 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/CSS/styles.css" />
+
 </head>
 
 <body>
 
-	<script th:inline="javascript">
+	<script sec:authorize="isAuthenticated()" th:inline="javascript">
     if([[${dark_mode}]]){
       document.body.setAttribute('data-theme', 'dark');
       localStorage.setItem('darkSwitch', 'dark');
     }else{
       localStorage.removeItem('darkSwitch');
     }
+   </script>
+
+	<script sec:authorize="!isAuthenticated()">
+      localStorage.removeItem('darkSwitch');
    </script>
 
 
@@ -102,6 +107,7 @@
       <div class="modal-body">
 		 <input type="checkbox" id="darkSwitch" />
          <label for="darkSwitch">Dark Mode</label>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -110,11 +116,12 @@
   </div>
 </div>
 
+
 <div class="custom-control custom-switch">
 <!--   <input type="checkbox" class="custom-control-input" id="darkSwitch" /> -->
 <!--   <label class="custom-control-label" for="darkSwitch">Dark Mode</label> -->
 </div>
-<script src="/JS/dark-mode-switch.js"></script>
+<script sec:authorize="isAuthenticated()" src="/JS/dark-mode-switch.js"></script>
 
 </body>
 </html>

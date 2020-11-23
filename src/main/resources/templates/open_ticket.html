@@ -9,6 +9,11 @@
   <link rel="stylesheet" type="text/css" href="/CSS/styles.css" />
 </head>
     <body>
+    
+    <script th:inline="javascript">
+    if([[${dark_mode}]]){
+      document.body.setAttribute('data-theme', 'dark');
+    } </script>
 
 	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 		<ul class="navbar-nav">

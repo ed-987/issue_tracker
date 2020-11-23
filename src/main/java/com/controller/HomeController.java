@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -37,7 +39,7 @@ public class HomeController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @GetMapping("/")
-    public String home(Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+    public String home(Model model, @AuthenticationPrincipal OAuth2User principal ) throws JsonMappingException, JsonProcessingException {
     	model.addAttribute("admin",false);
     	if(principal != null) {
     		String user = principal.getAttribute("email");
@@ -50,10 +52,13 @@ public class HomeController {
         		model.addAttribute("admin",true);
         	}
     	}
+     	
 		model.addAttribute("dark_mode",ScreenService.dark_mode);
+
 
         return "index";
     }
+    
 
     @GetMapping("/user")
     @ResponseBody

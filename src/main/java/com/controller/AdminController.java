@@ -101,6 +101,7 @@ public class AdminController {
         Ticket ticket=ticketService.getTicket(id);
 		model.addAttribute("ticket", ticket);
     	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
+    	model.addAttribute("dark_mode",ScreenService.dark_mode);
         return "admin_ticket";
     }
     

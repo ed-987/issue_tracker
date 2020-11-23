@@ -1,28 +1,34 @@
 :root {
   --color-bg: #ecf4f9;
-  --color-bg-th: #343a40;
-  --color-a: #d2d6da;
+  --color-bg-th: 0000ff;
+  --color-a: #007bff;
+  --color-a-hover: #0056b3;
+  --color-body-font: #212529;
+  --color-btn-outl-succ-border: lightgray; 
+  --color-table-class: #272121;
 }
 
 [data-theme="dark"] {
   --color-bg: #000000;
-  --color-font: yellow;
   --color-bg-th: #343a40;
   --color-a: #d2d6da;
+  --color-a-hover: #727272;
+  --color-body-font: white;
+  --color-btn-outl-succ-border: white;
+  --color-table-class: white;
 }
 
 body {
   background-color: var(--color-bg);
-  color: var(--color-font);
+  color: var(--color-body-font); 
 }
-
-/* [data-theme="dark"] body { */
-/*   background-color: #000000 !important; */
-/*   color: white !important;  */
-/* } */
 
 [data-theme="dark"] th {
   background-color: #343a40 !important;
+}
+
+.table {
+  color: var(--color-table-class);
 }
 
 [data-theme="dark"] .navbar-light {
@@ -31,7 +37,14 @@ body {
 
 [data-theme="dark"] .btn-primary {
   background-color: #6c757d !important;
-/*   border-color: #6c757d !important; */
+}
+
+.btn-outline-success {
+  color: var( --color-btn-outl-succ-border);
+  border-color: var( --color-btn-outl-succ-border);
+}
+[data-theme="dark"] .btn-outline-success:hover {
+  background-color: #a9c1ae !important;
 }
 
 [data-theme="dark"] H2 {
@@ -39,6 +52,9 @@ body {
 }
 [data-theme="dark"] td {
   color: white !important;
+}
+[data-theme="dark"] .list-group-item {
+  background-color: #343a40 !important;
 }
 [data-theme="dark"] .btn {
   color: white !important;
@@ -59,13 +75,12 @@ body {
 [data-theme="dark"] .modal-title {
   color: white !important;
 }
+.btn-info {
+  margin-top: 3px;
+}
 
-
-
-
-th {
-	background-color: blue;
-	color: white;
+[data-theme="dark"] .btn-info {
+  background: #6c757D !important;
 }
 
 [data-href] {
@@ -83,7 +98,7 @@ H6 {
 .tableFixHead {
 	overflow-y: auto;
 	height: 473px;
-	margin: -1px;
+	margin-top: -1px;
 }
 
 .tableFixHead thead th {
@@ -91,12 +106,13 @@ H6 {
 	top: 0;
 }
 
-
-
-/* th { */
-/* 	background-color: var(--color-bg-th); */
-/* } */
-/* a{ */
-/* 	color: var(--color-a); */
-/* } */
+th {
+	background-color: var(--color-bg-th);
+}
+a{
+	color: var(--color-a);
+}
+a:hover{
+	color: var(--color-a-hover);
+}
 

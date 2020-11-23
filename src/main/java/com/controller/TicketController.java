@@ -79,6 +79,7 @@ public class TicketController {
         Ticket ticket=ticketService.getTicket(id);
 		model.addAttribute("ticket", ticket);
     	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
+    	model.addAttribute("dark_mode",ScreenService.dark_mode);
         return "open_ticket";
     }
     
@@ -96,6 +97,7 @@ public class TicketController {
     	ticket.setUser(user.getAttribute("email"));
       	model.addAttribute("ticket", ticket);
       }      
+  	  model.addAttribute("dark_mode",ScreenService.dark_mode);
       return "new_ticket";
     }
     

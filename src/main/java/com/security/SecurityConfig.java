@@ -1,5 +1,7 @@
 package com.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
     private final LogoutHandler logoutHandler;
 
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+    
     public SecurityConfig(LogoutHandler logoutHandler) {
         this.logoutHandler = logoutHandler;
     }
@@ -40,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           //.httpBasic()
           //.realmName("oauth2/client")
           ;
+		  
 		  
 		  //to access H2 console:
           http.csrf().disable();
