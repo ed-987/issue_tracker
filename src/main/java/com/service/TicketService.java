@@ -3,6 +3,8 @@ package com.service;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import com.repository.TicketRepository;
 
 @Service
 public class TicketService {
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static final String[] statusOptions = {"New", "In progress", "Pending", "Completed", "Closed"};
 	
@@ -23,24 +27,27 @@ public class TicketService {
 	}
 
 	public List<Ticket> findAllTickets(String filter, String sort) {
+		if(filter == null) {filter="";}
+		filter = transformFilter(filter);
 		Integer id;
 		try {
 		    id=Integer.parseInt(filter);
 		} catch (NumberFormatException e) {
 			id=0;
 		}
-		if(filter == null) {filter="";}
 		if(sort == null) {sort="id";}
-		return ticketRepository.findByAndSort(id, filter, Sort.by(Sort.Direction.ASC,sort));
-//		if(sort==null) {
-//	      return ticketRepository.findAll();
-//		}else {
-//		  return ticketRepository.findAll(Sort.by(Sort.Direction.ASC,sort));
-//		}
+		logger.debug("filter:{}",filter);
+		List<Ticket> tickets=ticketRepository.findByAndSort(id, filter, Sort.by(Sort.Direction.ASC,sort));
+		for(Ticket ticket: tickets) {
+			ticket.create_display();
+		}
+		return tickets;
 	}
 	
 	public Ticket getTicket(Integer id) {
-		return ticketRepository.findById(id).get();
+		Ticket ticket = ticketRepository.findById(id).get();
+		ticket.create_display();
+		return ticket;
 	}
 
 	public void updateTicket(Ticket t) {
@@ -74,6 +81,17 @@ public class TicketService {
         	}
         }
 		
+	}
+	
+	private String transformFilter(String filter) {
+		filter = filter.toUpperCase();
+		filter = filter.replace("INC00000", "");
+		filter = filter.replace("INC0000", "");
+		filter = filter.replace("INC000", "");
+		filter = filter.replace("INC00", "");
+		filter = filter.replace("INC0", "");
+		filter = filter.replace("INC", "");
+		return filter;
 	}
 
 

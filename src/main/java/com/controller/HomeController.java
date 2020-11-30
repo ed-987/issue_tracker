@@ -40,6 +40,8 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal OAuth2User principal ) throws JsonMappingException, JsonProcessingException {
+    	ScreenService.tickets_screen_top=true;
+    	ScreenService.admin_screen_top=true;
     	model.addAttribute("admin",false);
     	if(principal != null) {
     		String user = principal.getAttribute("email");

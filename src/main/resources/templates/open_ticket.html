@@ -44,12 +44,10 @@
 
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
-				<form style="margin-bottom: 0px;" th:action="@{/ticket/close}"
-					th:object="${ticket}" method="post">
-					<input type="submit" value="CLOSE TICKET" th:disabled="${ticket.status=='Closed'}"
-						class="btn btn-secondary"> 
-					<input type="hidden" id="id" th:field="*{id}">
-				</form>
+				  <!-- Button trigger modal -->
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter" th:disabled="${ticket.status=='Closed'}">
+  						CLOSE TICKET
+					</button>
 			</li>
 		</ul>
 	</nav>
@@ -65,7 +63,7 @@
 						<div class="col-4">
 							<label for="inlineFormInput">Ticket number</label> <input
 								type="text" class="form-control mb-2" id="inlineFormInput"
-								th:field="*{id}" th:Placeholder="${id}" readonly>
+								th:field="*{id_display}" readonly>
 						</div>
 						
 						<div class="col-8">
@@ -98,6 +96,8 @@
 							rows="3" th:readonly="*{status=='Closed'}"></textarea>
 						</div>
 					</div>
+						<input type="hidden" th:field="*{id}">
+					
 				</form>
 			</div>
 			<div class="col-sm-4 border">
@@ -127,10 +127,37 @@
 			</div>
 		</div>
 		
-		<div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}">
+		<div class="alert alert-primary text-center" role="alert" th:text="${success}" th:if="${success}">
 		</div>
 
 	</div>
+	
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure, you want to close this ticket?
+      </div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+					<form th:action="@{/ticket/close}"
+						th:object="${ticket}" method="post">
+						<input type="submit" value="CLOSE TICKET"
+							class="btn btn-primary"> <input type="hidden" id="id"
+							th:field="*{id}">
+					</form>
+				</div>
+	  </div>
+  </div>
+</div>
 
 </body>
 </html>

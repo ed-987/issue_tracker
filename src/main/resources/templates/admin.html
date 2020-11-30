@@ -14,12 +14,15 @@
 <link rel="stylesheet" type="text/css" href="/CSS/styles.css" />
 </head>
 <body>
-
 	<script th:inline="javascript">
     if([[${dark_mode}]]){
       document.body.setAttribute('data-theme', 'dark');
-    } </script>
-   
+    }
+    if([[${scroll_top}]]){
+    	localStorage['admin_scrollTop']=0;
+      }
+    </script>
+  
 	<div class="sticky-top">
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 			<ul class="navbar-nav">
@@ -56,7 +59,7 @@
 	</div>
 	<div class="container">
 
-		<div class="table-responsive tableFixHead">
+		<div class="table-responsive tableFixHead" style="height: 427px;" id="admin_table">
 			<form th:action="@{/admin/delete}" th:object="${form}"
 				method="post" id=adminForm>
 				<!-- 	<fieldset> -->
@@ -78,7 +81,7 @@
 						<tr th:each="ticket, itemStat: *{tickets}">
 							<td class="text-center"><input type="checkbox"
 								th:field="*{tickets[__${itemStat.index}__].flag}" /></td>
-							<td th:text="*{tickets[__${itemStat.index}__].id}" />
+							<td th:text="*{tickets[__${itemStat.index}__].id_display}" />
 							<input type="hidden" th:field="*{tickets[__${itemStat.index}__].id}" />
 <!-- 							<td th:text="*{tickets[__${itemStat.index}__].title}" /> -->
 							<td> <a th:href="*{'/admin/open/'+tickets[__${itemStat.index}__].id}" th:text="*{tickets[__${itemStat.index}__].title}" />  </td>
@@ -91,7 +94,7 @@
 			</form>
 		</div>
 
-		<div class="alert alert-primary" role="alert" th:text="${success}"
+		<div class="alert alert-primary text-center" role="alert" th:text="${success}"
 			th:if="${success}"></div>
 	</div>
 	
@@ -115,6 +118,19 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+$('#admin_table').ready(function(){
+    if (localStorage['admin_page'] == document.URL) {
+        $('#admin_table').scrollTop(localStorage['admin_scrollTop']);
+    }
+});
+
+$('#admin_table').scroll(function(){
+    localStorage['admin_page'] = document.URL;
+    localStorage['admin_scrollTop'] = $('#admin_table').scrollTop();
+});
+</script>
 
 </body>
 </html>

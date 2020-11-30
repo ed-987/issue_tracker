@@ -15,7 +15,11 @@
 	<script th:inline="javascript">
     if([[${dark_mode}]]){
       document.body.setAttribute('data-theme', 'dark');
-    } </script>
+    }
+    if([[${scroll_top}]]){
+    	localStorage['scrollTop']=0;
+      }
+    </script>
 
 	<div class="sticky-top">
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -51,8 +55,8 @@
 	</div>
 	<div class="container">
 
-  <div class="table-responsive tableFixHead">
-    <table class="table table-bordered table-hover">
+  <div class="table-responsive tableFixHead" id="tickets_table">
+    <table class="table table-bordered table-hover" >
 	 <thead>
 		<tr th:with="add_filter=${filter != null} ? ${'filter='+filter+'&'} : ''">
 		  <th><a class="btn btn-primary " th:href="${'/tickets?'+add_filter+'sort=id'}">Id &#9660;</a></th>
@@ -64,7 +68,7 @@
 	  </thead>
 	  <tbody>
 		<tr th:each="ticket: ${tickets}">
-		  <td th:text="${ticket.id}" />
+		  <td th:text="${ticket.id_display}" />
 	   	  <td> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" />  </td>
 		  <td th:text="${ticket.status}" />
 		  <td th:text="${ticket.user}" />       
@@ -73,7 +77,19 @@
     </table>
   </div>
 </div>
-       
+ 
+<script type="text/javascript">
+$('#tickets_table').ready(function(){
+    if (localStorage['page'] == document.URL) {
+        $('#tickets_table').scrollTop(localStorage['scrollTop']);
+    }
+});
+
+$('#tickets_table').scroll(function(){
+    localStorage['page'] = document.URL;
+    localStorage['scrollTop'] = $('#tickets_table').scrollTop();
+});
+</script>
 
 </body>
 </html>

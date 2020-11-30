@@ -49,7 +49,7 @@
 						<div class="col-4">
 							<label for="inlineFormInput">Ticket number</label> <input
 								type="text" class="form-control mb-2" id="inlineFormInput"
-								th:field="*{id}" Placeholder="auto-generated" readonly>
+								th:field="*{id_display}" Placeholder="auto-generated" readonly>
 						</div>
 						
 						<div class="col-8">
@@ -81,11 +81,11 @@
 							rows="3"></textarea>
 						</div>
 					</div>
-
+					<input type="hidden" th:field="*{id}">
 
 		</form>
 
-		<div class="alert alert-primary" role="alert" th:text="${success}"
+		<div class="alert alert-primary text-center" role="alert" th:text="${success}"
 			th:if="${success}"></div>
 	</div>
 

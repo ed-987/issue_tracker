@@ -54,6 +54,7 @@ public class AdminController {
 //    @ResponseBody
     public String admin(@AuthenticationPrincipal OAuth2User principal,HttpServletResponse response, @RequestParam(required = false) String sort ,
     		@RequestParam(required = false) String filter, Model model) throws IOException{
+    	ScreenService.tickets_screen_top=true;
     	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
 		String user = principal.getAttribute("email");
 		model.addAttribute("user",user);
@@ -68,6 +69,7 @@ public class AdminController {
 	    model.addAttribute("filter", filter);
         //model.addAttribute("tickets", ticketService.findAllTickets(sort));
    	    model.addAttribute("dark_mode",ScreenService.dark_mode);
+   	    model.addAttribute("scroll_top",ScreenService.admin_screen_top);
     	return "admin";
         
     }
@@ -79,13 +81,14 @@ public class AdminController {
         logger.debug("outp:{}", form.getTickets().toString());
         //model.addAttribute("tickets", ticketService.findAllTickets(sort));
         ticketService.deleteTickets(form.getTickets());
-        redir.addFlashAttribute("success", "deleted");
+        redir.addFlashAttribute("success", "selected ticket(s) deleted");
         return "redirect:/admin";
         
     }
 	
     @GetMapping(path="/admin/open/{id}")
     public String adminTicketPage(@PathVariable(required = false) Integer id ,HttpServletRequest request, Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+    	ScreenService.admin_screen_top=false;
     	model.addAttribute("activity",new Activity());
         model.addAttribute("statusOptions", TicketService.getStatusoptions());
         if(principal != null) {
@@ -109,7 +112,7 @@ public class AdminController {
     public String adminUpdateTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
       logger.debug("outp-ticket_update: {}",ticket.toString());
       ticketService.updateTicket(ticket);
-      redir.addFlashAttribute("success", "updated");
+      redir.addFlashAttribute("success", "ticket updated");
       return "redirect:/admin/open/"+ticket.getId().toString();
     }
     
@@ -120,7 +123,7 @@ public class AdminController {
       Ticket t=ticketService.getTicket(ticket.getId());
       t.setStatus("Closed");
       ticketService.saveTicket(t);
-      redir.addFlashAttribute("success", "closed");
+      redir.addFlashAttribute("success", "ticket closed");
       return "redirect:/admin/open/"+ticket.getId().toString();
     }
 }

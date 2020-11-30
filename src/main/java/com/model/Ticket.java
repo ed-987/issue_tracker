@@ -23,6 +23,9 @@ public class Ticket {
   
   @Transient
   private Boolean flag;
+  
+  @Transient
+  private String id_display;
     
   public Ticket() {
 	this.status = "New";
@@ -90,5 +93,16 @@ public void setFlag(Boolean flag) {
 	this.flag = flag;
 }
 
+public String getId_display() {
+	return id_display;
+}
+
+public void setId_display(String id_display) {
+	this.id_display = id_display;
+}
+
+public void create_display() {
+	this.id_display = "INC"+String.format("%06d",this.id);
+}
 
 }

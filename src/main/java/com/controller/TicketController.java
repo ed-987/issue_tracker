@@ -44,6 +44,7 @@ public class TicketController {
   
     @GetMapping(path="/tickets")
     public String ticketsPage(@RequestParam(required = false) String sort ,@RequestParam(required = false) String filter, Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+      ScreenService.admin_screen_top=true;
       model.addAttribute("admin",false);
       model.addAttribute("tickets", ticketService.findAllTickets(filter, sort));
       model.addAttribute("sort", sort);
@@ -59,11 +60,13 @@ public class TicketController {
      	}
   	  }
   	  model.addAttribute("dark_mode",ScreenService.dark_mode);
+  	  model.addAttribute("scroll_top",ScreenService.tickets_screen_top);
       return "tickets";
     }
     
     @GetMapping(path="/ticket/open/{id}")
     public String openTicketPage(@PathVariable(required = false) Integer id ,HttpServletRequest request, Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+    	ScreenService.tickets_screen_top=false;
     	model.addAttribute("activity",new Activity());
         model.addAttribute("statusOptions", TicketService.getStatusoptions());
         if(principal != null) {
@@ -104,7 +107,8 @@ public class TicketController {
     @PostMapping(path="/ticket/save")
     public String saveTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
       ticketService.saveTicket(ticket);
-      redir.addFlashAttribute("success", "saved");
+      ticket.create_display();
+      redir.addFlashAttribute("success", "ticket saved");
       redir.addFlashAttribute("ticket", ticket);
       logger.debug("outp:{}",ticket.toString());
       return "redirect:/ticket/new";
@@ -114,7 +118,7 @@ public class TicketController {
     public String updateTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
       logger.debug("outp-ticket_update: {}",ticket.toString());
       ticketService.updateTicket(ticket);
-      redir.addFlashAttribute("success", "updated");
+      redir.addFlashAttribute("success", "ticket updated");
       return "redirect:/ticket/open/"+ticket.getId().toString();
     }
     
@@ -125,7 +129,7 @@ public class TicketController {
       Ticket t=ticketService.getTicket(ticket.getId());
       t.setStatus("Closed");
       ticketService.saveTicket(t);
-      redir.addFlashAttribute("success", "closed");
+      redir.addFlashAttribute("success", "ticket closed");
       return "redirect:/ticket/open/"+ticket.getId().toString();
     }
     
