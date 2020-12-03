@@ -47,23 +47,23 @@ public class TicketController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
   
     @GetMapping(path="/tickets")
-    public String ticketsPage(@RequestParam(required = false) String sort, @RequestParam(required = false) Boolean sortascending, 
-    		@RequestParam(required = false) String filter, @RequestParam(required = false) Integer page, Model model, 
-    		@RequestParam(required = false) String status,
+    public String ticketsPage(
+    		Model model,
+    		@RequestParam(required = false, defaultValue = TicketService.sortDefault) String sort, 
+    		@RequestParam(required = false, defaultValue = TicketService.sortascendingDefault) Boolean sortascending, 
+    		@RequestParam(required = false, defaultValue = "") String filter, 
+    		@RequestParam(required = false, defaultValue = "0") Integer page,
+    		@RequestParam(required = false, defaultValue = "") String status, 
+    		@RequestParam(required = false) Integer pagesize,
     		@AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
       ScreenService.admin_screen_top=true;
       model.addAttribute("admin",false);
-      if(status == null) {status="";}
-//      if(page != null) {
-//    	  TicketService.page=page;
-//      }else {
-//    	  TicketService.page = 0;
-//      }
-      if(page == null) {page=0;}
-      if(sort == null) {sort="id";}
-      if(sortascending == null) {sortascending=true;} 
+      
+      if(pagesize == null) {pagesize=TicketService.pageSize;}else {
+    	  TicketService.pageSize=pagesize;
+      }
       if(!sort.equals(TicketService.sort)) {
-    	  sortascending=true;
+    	  sortascending=Boolean.parseBoolean(TicketService.sortascendingDefault);;
     	  TicketService.sort=sort;
       }
       Slice<Ticket> slice = ticketService.findAllTickets(filter, sort, status, sortascending, page);
@@ -72,11 +72,13 @@ public class TicketController {
       model.addAttribute("sortascending", sortascending);
       model.addAttribute("filter", filter);
       model.addAttribute("status", status);
+      model.addAttribute("pagesize", pagesize);
       model.addAttribute("page", slice.getNumber());
       model.addAttribute("hasNext", slice.hasNext());
       model.addAttribute("hasPrevious", slice.hasPrevious());
-      model.addAttribute("showing", String.valueOf(1+slice.getNumber()*slice.getSize())+"-"+
-        String.valueOf(slice.getNumber()*slice.getSize()+slice.getNumberOfElements()));
+      String showing = (slice.getNumberOfElements()==0) ? " " : String.valueOf(1+slice.getNumber()*slice.getSize())+"-"+
+    	        String.valueOf(slice.getNumber()*slice.getSize()+slice.getNumberOfElements());
+      model.addAttribute("showing", showing);
   	  if(principal != null) {
 		String user = principal.getAttribute("email");
 		model.addAttribute("user",user);
@@ -96,7 +98,8 @@ public class TicketController {
     }
     
     @GetMapping(path="/ticket/open/{id}")
-    public String openTicketPage(@PathVariable(required = false) Integer id ,HttpServletRequest request, Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+    public String openTicketPage(@PathVariable(required = false) Integer id ,HttpServletRequest request, Model model, 
+    		@AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
     	ScreenService.tickets_screen_top=false;
     	model.addAttribute("activity",new Activity());
         model.addAttribute("statusOptions", TicketService.getStatusoptions());
@@ -113,10 +116,7 @@ public class TicketController {
         Ticket ticket=ticketService.getTicket(id);
 		model.addAttribute("ticket", ticket);
     	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
-    	model.addAttribute("dark_mode",ScreenService.dark_mode);
-    	
-    	logger.debug("date:{}",ticket.getCreatedDateFormat());
-    	
+    	model.addAttribute("dark_mode",ScreenService.dark_mode);   	
         return "open_ticket";
     }
     
@@ -132,6 +132,7 @@ public class TicketController {
     	Ticket ticket = new Ticket();
     	ticket.setUser(principal.getAttribute("email"));
       	model.addAttribute("ticket", ticket);
+      	logger.debug("ticket:{}",ticket.toString());
       }
       if(principal != null) {
         String roles = principal.getAttribute("http://role/").toString();
@@ -148,8 +149,7 @@ public class TicketController {
     @PostMapping(path="/ticket/save")
     public String saveTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
       ticketService.saveTicket(ticket);
-      ticket.create_display();
-      redir.addFlashAttribute("success", "ticket saved");
+      redir.addFlashAttribute("success", "Ticket saved");
       redir.addFlashAttribute("ticket", ticket);
       logger.debug("outp:{}",ticket.toString());
       return "redirect:/ticket/new";
@@ -159,7 +159,7 @@ public class TicketController {
     public String updateTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
       logger.debug("outp-ticket_update: {}",ticket.toString());
       ticketService.updateTicket(ticket);
-      redir.addFlashAttribute("success", "ticket updated");
+      redir.addFlashAttribute("success", "Ticket updated");
       return "redirect:/ticket/open/"+ticket.getId().toString();
     }
     
@@ -170,7 +170,7 @@ public class TicketController {
       Ticket t=ticketService.getTicket(ticket.getId());
       t.setStatus("Closed");
       ticketService.saveTicket(t);
-      redir.addFlashAttribute("success", "ticket closed");
+      redir.addFlashAttribute("success", "Ticket closed");
       return "redirect:/ticket/open/"+ticket.getId().toString();
     }
     

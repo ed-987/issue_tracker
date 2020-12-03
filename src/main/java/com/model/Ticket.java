@@ -82,11 +82,6 @@ public Integer getId() {
 	this.status = status;
   }		
 
-@Override
-public String toString() {
-	return "Ticket [id=" + id + ", title=" + title + ", description=" + description + ", user=" + user + ", status="
-			+ status + ", flag=" + flag + "]";
-}
 
 public Boolean getFlag() {
 	return flag;
@@ -99,14 +94,6 @@ public void setFlag(Boolean flag) {
 public String getId_display() {
 	return "INC"+String.format("%06d",id);
 }
-
-public void setId_display(String id_display) {
-	this.id_display = id_display;
-}
-
-//public void create_display() {
-//	this.id_display = "INC"+String.format("%06d",this.id);
-//}
 
 public Date getCreated() {
 	return created;
@@ -133,6 +120,13 @@ public String getCreatedDateFormat() {
 		return "2020.11.01";
 	}
 }
+
+@Override
+public String toString() {
+	return "Ticket [id=" + id + ", title=" + title + ", description=" + description + ", user=" + user + ", status="
+			+ status + ", created=" + created + ", updated=" + updated + ", flag=" + flag + "]";
+}
+
 
 
 }

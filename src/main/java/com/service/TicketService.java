@@ -21,12 +21,10 @@ public class TicketService {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static final String[] statusOptions = {"New", "In progress", "Pending", "Completed", "Closed"};
-//	public static Integer page = 0;
-//	public static Boolean hasNext;
-//	public static Boolean hasPrevious;
-	public static String sort = "id";
+	public static final String sortDefault ="id";
+	public static final String sortascendingDefault = "false";
+	public static String sort = sortDefault;
 	public static Integer pageSize = 25;
-	//public static Boolean sortAscending = true;
 	
 	@Autowired
 	TicketRepository ticketRepository;
@@ -36,39 +34,28 @@ public class TicketService {
 	}
 
 	public Slice<Ticket> findAllTickets(String filter, String sort, String status, Boolean sortAscending, Integer page) {
-		if(filter == null) {filter="";}else {
-			filter = filter.toLowerCase();
-			filter = transformFilter(filter);
-		}
+		filter = filter.toLowerCase();
+		String filter_id = transformFilter(filter);
+
 		Integer id;
 		try {
-		    id=Integer.parseInt(filter);
+		    id=Integer.parseInt(filter_id);
 		} catch (NumberFormatException e) {
 			id=0;
 		}
-		if(sort == null) {sort="id";}
-//		logger.debug("filter:{}",filter);
+
 		Pageable pageable;
 		if(sortAscending) {
 		  pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC,sort,"id"));
 		} else {
 		  pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC,sort,"id"));
 		}
-//		Slice<Ticket> slice = ticketRepository.findByAndSort(id, filter, status, pageable);
-//		hasNext=slice.hasNext();
-//		hasPrevious=slice.hasPrevious();
-//		List<Ticket> tickets = slice.getContent();
-		//List<Ticket> tickets=ticketRepository.findByAndSort(id, filter, pageable);
-		//List<Ticket> tickets=ticketRepository.findByAndSort(id, filter, Sort.by(Sort.Direction.ASC,sort),firstPageWithTwoElements);
-//		for(Ticket ticket: tickets) {
-//			ticket.create_display();
-//		}
 		return ticketRepository.findByAndSort(id, filter, status, pageable);
 	}
 	
 	public Ticket getTicket(Integer id) {
 		Ticket ticket = ticketRepository.findById(id).get();
-		ticket.create_display();
+		//ticket.create_display();
 		return ticket;
 	}
 
