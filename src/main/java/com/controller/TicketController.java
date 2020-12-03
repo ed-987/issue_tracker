@@ -1,5 +1,7 @@
 package com.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -43,12 +47,36 @@ public class TicketController {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
   
     @GetMapping(path="/tickets")
-    public String ticketsPage(@RequestParam(required = false) String sort ,@RequestParam(required = false) String filter, Model model, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
+    public String ticketsPage(@RequestParam(required = false) String sort, @RequestParam(required = false) Boolean sortascending, 
+    		@RequestParam(required = false) String filter, @RequestParam(required = false) Integer page, Model model, 
+    		@RequestParam(required = false) String status,
+    		@AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
       ScreenService.admin_screen_top=true;
       model.addAttribute("admin",false);
-      model.addAttribute("tickets", ticketService.findAllTickets(filter, sort));
+      if(status == null) {status="";}
+//      if(page != null) {
+//    	  TicketService.page=page;
+//      }else {
+//    	  TicketService.page = 0;
+//      }
+      if(page == null) {page=0;}
+      if(sort == null) {sort="id";}
+      if(sortascending == null) {sortascending=true;} 
+      if(!sort.equals(TicketService.sort)) {
+    	  sortascending=true;
+    	  TicketService.sort=sort;
+      }
+      Slice<Ticket> slice = ticketService.findAllTickets(filter, sort, status, sortascending, page);
+      model.addAttribute("tickets", slice.getContent());
       model.addAttribute("sort", sort);
+      model.addAttribute("sortascending", sortascending);
       model.addAttribute("filter", filter);
+      model.addAttribute("status", status);
+      model.addAttribute("page", slice.getNumber());
+      model.addAttribute("hasNext", slice.hasNext());
+      model.addAttribute("hasPrevious", slice.hasPrevious());
+      model.addAttribute("showing", String.valueOf(1+slice.getNumber()*slice.getSize())+"-"+
+        String.valueOf(slice.getNumber()*slice.getSize()+slice.getNumberOfElements()));
   	  if(principal != null) {
 		String user = principal.getAttribute("email");
 		model.addAttribute("user",user);
@@ -61,6 +89,9 @@ public class TicketController {
   	  }
   	  model.addAttribute("dark_mode",ScreenService.dark_mode);
   	  model.addAttribute("scroll_top",ScreenService.tickets_screen_top);
+  	  
+      logger.debug("slice:{} ",slice.getNumberOfElements());	
+  	  
       return "tickets";
     }
     
@@ -83,13 +114,15 @@ public class TicketController {
 		model.addAttribute("ticket", ticket);
     	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
     	model.addAttribute("dark_mode",ScreenService.dark_mode);
+    	
+    	logger.debug("date:{}",ticket.getCreatedDateFormat());
+    	
         return "open_ticket";
     }
     
     @GetMapping(path="/ticket/new")
-    public String newTicketPage(Model model, @AuthenticationPrincipal OAuth2User user, HttpServletRequest request) {
+    public String newTicketPage(Model model, @AuthenticationPrincipal OAuth2User principal, HttpServletRequest request) throws JsonMappingException, JsonProcessingException {
       Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
-      logger.debug(user.getAttribute("email"));
       model.addAttribute("statusOptions", TicketService.getStatusoptions());
       if (inputFlashMap != null) {
       	if(inputFlashMap.get("success").equals("saved")) {
@@ -97,9 +130,17 @@ public class TicketController {
       	} 
       } else {
     	Ticket ticket = new Ticket();
-    	ticket.setUser(user.getAttribute("email"));
+    	ticket.setUser(principal.getAttribute("email"));
       	model.addAttribute("ticket", ticket);
-      }      
+      }
+      if(principal != null) {
+        String roles = principal.getAttribute("http://role/").toString();
+        @SuppressWarnings("unchecked")
+	    List<String> result = new ObjectMapper().readValue(roles, List.class);
+        if(result.contains("ADMIN")) {
+   		  model.addAttribute("admin",true);
+   	    }
+      }
   	  model.addAttribute("dark_mode",ScreenService.dark_mode);
       return "new_ticket";
     }

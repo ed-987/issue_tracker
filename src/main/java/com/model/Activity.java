@@ -1,5 +1,6 @@
 package com.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -67,6 +68,12 @@ public class Activity {
 
 	public void setCreated(Date created) {
 		this.created = created;
+	}
+	
+	public String getCreatedTimeFormat() {
+	      SimpleDateFormat ft = 
+	      new SimpleDateFormat ("yyyy.MM.dd HH:mm:ss");
+	      return ft.format(created);
 	}
 
 }

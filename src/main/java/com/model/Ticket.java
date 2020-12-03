@@ -1,5 +1,8 @@
 package com.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,23 +15,22 @@ public class Ticket {
   @Id
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
-
   private String title;
-
   private String description;
-  
-  private String user;
-  
+  private String user;  
   private String status;
+  private Date created;
+  private Date updated;
   
   @Transient
   private Boolean flag;
   
-  @Transient
-  private String id_display;
+//  @Transient
+//  private String id_display;
     
   public Ticket() {
 	this.status = "New";
+	this.created = new Date();
   }
   
   public Ticket(String title, String description, String user, String status) {
@@ -37,6 +39,7 @@ public class Ticket {
 	this.description = description;
 	this.user = user;
 	this.status = status;
+	this.created = new Date();
 }
 
 public Integer getId() {
@@ -94,15 +97,42 @@ public void setFlag(Boolean flag) {
 }
 
 public String getId_display() {
-	return id_display;
+	return "INC"+String.format("%06d",id);
 }
 
 public void setId_display(String id_display) {
 	this.id_display = id_display;
 }
 
-public void create_display() {
-	this.id_display = "INC"+String.format("%06d",this.id);
+//public void create_display() {
+//	this.id_display = "INC"+String.format("%06d",this.id);
+//}
+
+public Date getCreated() {
+	return created;
 }
+
+public void setCreated(Date created) {
+	this.created = created;
+}
+
+public Date getUpdated() {
+	return updated;
+}
+
+public void setUpdated(Date updated) {
+	this.updated = updated;
+}
+
+public String getCreatedDateFormat() {
+	if(created != null) {
+		SimpleDateFormat ft = 
+		new SimpleDateFormat ("yyyy.MM.dd");
+		return ft.format(created);}
+	else {
+		return "2020.11.01";
+	}
+}
+
 
 }

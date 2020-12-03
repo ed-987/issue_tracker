@@ -6,6 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,12 @@ public class TicketService {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static final String[] statusOptions = {"New", "In progress", "Pending", "Completed", "Closed"};
+//	public static Integer page = 0;
+//	public static Boolean hasNext;
+//	public static Boolean hasPrevious;
+	public static String sort = "id";
+	public static Integer pageSize = 25;
+	//public static Boolean sortAscending = true;
 	
 	@Autowired
 	TicketRepository ticketRepository;
@@ -26,9 +35,11 @@ public class TicketService {
 		ticketRepository.save(ticket);	
 	}
 
-	public List<Ticket> findAllTickets(String filter, String sort) {
-		if(filter == null) {filter="";}
-		filter = transformFilter(filter);
+	public Slice<Ticket> findAllTickets(String filter, String sort, String status, Boolean sortAscending, Integer page) {
+		if(filter == null) {filter="";}else {
+			filter = filter.toLowerCase();
+			filter = transformFilter(filter);
+		}
 		Integer id;
 		try {
 		    id=Integer.parseInt(filter);
@@ -36,12 +47,23 @@ public class TicketService {
 			id=0;
 		}
 		if(sort == null) {sort="id";}
-		logger.debug("filter:{}",filter);
-		List<Ticket> tickets=ticketRepository.findByAndSort(id, filter, Sort.by(Sort.Direction.ASC,sort));
-		for(Ticket ticket: tickets) {
-			ticket.create_display();
+//		logger.debug("filter:{}",filter);
+		Pageable pageable;
+		if(sortAscending) {
+		  pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC,sort,"id"));
+		} else {
+		  pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC,sort,"id"));
 		}
-		return tickets;
+//		Slice<Ticket> slice = ticketRepository.findByAndSort(id, filter, status, pageable);
+//		hasNext=slice.hasNext();
+//		hasPrevious=slice.hasPrevious();
+//		List<Ticket> tickets = slice.getContent();
+		//List<Ticket> tickets=ticketRepository.findByAndSort(id, filter, pageable);
+		//List<Ticket> tickets=ticketRepository.findByAndSort(id, filter, Sort.by(Sort.Direction.ASC,sort),firstPageWithTwoElements);
+//		for(Ticket ticket: tickets) {
+//			ticket.create_display();
+//		}
+		return ticketRepository.findByAndSort(id, filter, status, pageable);
 	}
 	
 	public Ticket getTicket(Integer id) {
@@ -84,13 +106,12 @@ public class TicketService {
 	}
 	
 	private String transformFilter(String filter) {
-		filter = filter.toUpperCase();
-		filter = filter.replace("INC00000", "");
-		filter = filter.replace("INC0000", "");
-		filter = filter.replace("INC000", "");
-		filter = filter.replace("INC00", "");
-		filter = filter.replace("INC0", "");
-		filter = filter.replace("INC", "");
+		filter = filter.replace("inc00000", "");
+		filter = filter.replace("inc0000", "");
+		filter = filter.replace("inc000", "");
+		filter = filter.replace("inc00", "");
+		filter = filter.replace("inc0", "");
+		filter = filter.replace("inc", "");
 		return filter;
 	}
 
