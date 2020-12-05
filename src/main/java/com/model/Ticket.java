@@ -121,6 +121,16 @@ public String getCreatedDateFormat() {
 	}
 }
 
+public String getCreatedDateTimeFormat() {
+	if(created != null) {
+		SimpleDateFormat ft = 
+		new SimpleDateFormat ("yyyy.MM.dd HH:mm");
+		return ft.format(created);}
+	else {
+		return "2020.11.01 00:00";
+	}
+}
+
 @Override
 public String toString() {
 	return "Ticket [id=" + id + ", title=" + title + ", description=" + description + ", user=" + user + ", status="

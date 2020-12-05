@@ -61,6 +61,7 @@ public class TicketService {
 
 	public void updateTicket(Ticket t) {
 	    Ticket ticket = ticketRepository.findById(t.getId()).get();
+	    ticket.setTitle(t.getTitle()); 
 	    ticket.setStatus(t.getStatus()); 
         ticket.setDescription(t.getDescription()); 
         ticket.setUser(t.getUser()); 

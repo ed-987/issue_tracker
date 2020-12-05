@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,22 +53,50 @@ public class AdminController {
     
     @GetMapping("/admin")
 //    @ResponseBody
-    public String admin(@AuthenticationPrincipal OAuth2User principal,HttpServletResponse response, @RequestParam(required = false) String sort ,
-    		@RequestParam(required = false) String filter, Model model) throws IOException{
+    public String admin(Model model, 
+    		@RequestParam(required = false, defaultValue = TicketService.sortDefault) String sort, 
+    		@RequestParam(required = false, defaultValue = TicketService.sortascendingDefault) Boolean sortascending, 
+    		@RequestParam(required = false, defaultValue = "") String filter, 
+    		@RequestParam(required = false, defaultValue = "0") Integer page,
+    		@RequestParam(required = false, defaultValue = "") String status, 
+    		@RequestParam(required = false) Integer pagesize,
+    		@AuthenticationPrincipal OAuth2User principal,HttpServletResponse response
+    		) throws IOException{
     	ScreenService.tickets_screen_top=true;
     	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
 		String user = principal.getAttribute("email");
 		model.addAttribute("user",user);
+		
+	      if(pagesize == null) {pagesize=TicketService.pageSize;}else {
+	    	  TicketService.pageSize=pagesize;
+	      }
+	      if(!sort.equals(TicketService.sort)) {
+	    	  sortascending=Boolean.parseBoolean(TicketService.sortascendingDefault);;
+	    	  TicketService.sort=sort;
+	      }
+	      
     	TicketsCreationDto ticketsForm = new TicketsCreationDto();
-    	List<Ticket> tickets=ticketService.findAllTickets(filter, sort);
-    	//tickets.add(new Ticket());
+        Slice<Ticket> slice = ticketService.findAllTickets(filter, sort, status, sortascending, page);
+        List<Ticket> tickets = slice.getContent();
+
         for (int i = 0; i <= tickets.size()-1; i++) {
             ticketsForm.addTicket(tickets.get(i));
         }
 	    model.addAttribute("form", ticketsForm);
-	    model.addAttribute("sort", sort);
-	    model.addAttribute("filter", filter);
-        //model.addAttribute("tickets", ticketService.findAllTickets(sort));
+	    
+	      model.addAttribute("tickets", slice.getContent());
+	      model.addAttribute("sort", sort);
+	      model.addAttribute("sortascending", sortascending);
+	      model.addAttribute("filter", filter);
+	      model.addAttribute("pagesize", pagesize);
+	      model.addAttribute("page", slice.getNumber());
+	      model.addAttribute("hasNext", slice.hasNext());
+	      model.addAttribute("hasPrevious", slice.hasPrevious());
+	      
+	      String showing = (slice.getNumberOfElements()==0) ? " " : String.valueOf(1+slice.getNumber()*slice.getSize())+"-"+
+	    	        String.valueOf(slice.getNumber()*slice.getSize()+slice.getNumberOfElements());
+	      model.addAttribute("showing", showing);
+	    
    	    model.addAttribute("dark_mode",ScreenService.dark_mode);
    	    model.addAttribute("scroll_top",ScreenService.admin_screen_top);
     	return "admin";
@@ -79,9 +108,8 @@ public class AdminController {
     public String delete(@ModelAttribute TicketsCreationDto form, RedirectAttributes redir, @AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
     	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
         logger.debug("outp:{}", form.getTickets().toString());
-        //model.addAttribute("tickets", ticketService.findAllTickets(sort));
         ticketService.deleteTickets(form.getTickets());
-        redir.addFlashAttribute("success", "selected ticket(s) deleted");
+        redir.addFlashAttribute("success", "Selected ticket(s) deleted");
         return "redirect:/admin";
         
     }

@@ -94,7 +94,7 @@
     <table class="table table-bordered table-hover" >
 	 <thead>
 		<tr th:with="url=${'/tickets?filter='+filter+'&sortascending='+!sortascending+'&status='+status}">
-		  <th><a class="btn btn-primary " style="width:82px;" th:href="${url+'&sort=id'}">Id <span 
+		  <th style="width: 100px;"><a class="btn btn-primary " style="width:82px;" th:href="${url+'&sort=id'}">Id <span 
 		  		 th:if="${sort=='id' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='id' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='id'}">&#9660;/&#9650;</span></a></th>		  
@@ -102,11 +102,11 @@
 		  		 th:if="${sort=='title' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='title' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='title'}">&#9660;/&#9650;</span></a></th>
-		  <th><a class="btn btn-primary " style="width:124px;" th:href="${url+'&sort=created'}">Created <span 
+		  <th style="width: 124px;"><a class="btn btn-primary " style="width:124px;" th:href="${url+'&sort=created'}">Created <span 
 		  		 th:if="${sort=='created' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='created' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='created'}">&#9660;/&#9650;</span></a></th>
-		  <th>Status&nbsp;&nbsp;<select name="status" id="status_dropdown"
+		  <th style="width: 181px;">Status&nbsp;&nbsp;<select name="status" id="status_dropdown"
 							onchange="changeStatus()">
 								<option th:selected="${status==''}" value="">all</option>
 								<option th:selected="${status=='new'}" value="new">new</option>
