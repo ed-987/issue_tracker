@@ -1,5 +1,6 @@
 package com.security;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -30,13 +31,19 @@ public class LoginListener implements ApplicationListener<InteractiveAuthenticat
     	ScreenService.logged_in_user=event.getAuthentication().getName();
     	List<User> found_user = userService.getUser(ScreenService.logged_in_user);
     	if(found_user.size()>0) {
+    		
     		ScreenService.dark_mode=found_user.get(0).getDark_mode();
+    		ScreenService.columns = (found_user.get(0).getColumns() != null) ? found_user.get(0).getColumns() : ScreenService.columns;
+    		
     	}else {
-    		userService.saveUser(new User(ScreenService.logged_in_user,false));
     		ScreenService.dark_mode=false;
+    		//ScreenService.columns = new HashMap<String, Boolean>();
+    		//ScreenService.columns.put("created", true);
+    		userService.saveUser(new User(ScreenService.logged_in_user, ScreenService.dark_mode, ScreenService.columns)); 		
+    		
     	}
     		
-    	//logger.debug("x123: {}",event.getAuthentication().getName());
+    	//logger.debug("x123: {}",event.getAuthentication().getPrincipal());
     }
 
 }

@@ -56,7 +56,7 @@ public class HomeController {
     	}
      	
 		model.addAttribute("dark_mode",ScreenService.dark_mode);
-
+		model.addAttribute("columns",ScreenService.columns);
 
         return "index";
     }

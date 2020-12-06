@@ -24,7 +24,18 @@ public class ScreenController {
     public String screen(@RequestParam(required = false) Boolean dark_mode) {
     
     	ScreenService.dark_mode=dark_mode;
-    	userService.updateUser(ScreenService.logged_in_user, dark_mode);
+    	userService.updateUserDarkMode(ScreenService.logged_in_user, dark_mode);
+    	return null;
+            
+    }
+    
+    @GetMapping("/columns")
+    @ResponseBody
+    public String columns(@RequestParam(required = false) Boolean created) {
+    
+    	ScreenService.columns.put("created", created);
+    	userService.updateUserColumns(ScreenService.logged_in_user, ScreenService.columns);
+    	logger.debug("created:{}",created);
     	return null;
             
     }

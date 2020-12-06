@@ -123,5 +123,19 @@
 </div>
 <script sec:authorize="isAuthenticated()" src="/JS/dark-mode-switch.js"></script>
 
+
+
+<input type="checkbox" id="columns_set" th:checked="${columns.get('created')}">
+<button type="button" onclick="columns_set()">save</button>
+
+<script type="text/javascript">
+
+function columns_set(){
+	var created=$("#columns_set").is(":checked");
+	$.get('/columns?created='+created);
+}
+
+</script>
+
 </body>
 </html>

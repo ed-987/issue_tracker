@@ -102,7 +102,7 @@
 		  		 th:if="${sort=='title' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='title' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='title'}">&#9660;/&#9650;</span></a></th>
-		  <th style="width: 124px;"><a class="btn btn-primary " style="width:124px;" th:href="${url+'&sort=created'}">Created <span 
+		  <th th:if="${columns.get('created')}" style="width: 124px;"><a class="btn btn-primary " style="width:124px;" th:href="${url+'&sort=created'}">Created <span 
 		  		 th:if="${sort=='created' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='created' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='created'}">&#9660;/&#9650;</span></a></th>
@@ -122,7 +122,7 @@
 		<tr th:each="ticket: ${tickets}">
 		  <td th:text="${ticket.id_display}" />
 	   	  <td> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" />  </td>
-	   	  <td th:text="${ticket.getCreatedDateFormat()}" />
+	   	  <td th:if="${columns.get('created')}" th:text="${ticket.getCreatedDateFormat()}" />
 		  <td th:text="${ticket.status}" />
 		  <td th:text="${ticket.user}" />       
 		</tr>

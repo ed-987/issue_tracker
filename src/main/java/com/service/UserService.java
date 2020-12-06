@@ -1,5 +1,6 @@
 package com.service;	
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,16 @@ public class UserService {
 		userRepository.save(user);	
 	}
 
-	public void updateUser(String name, Boolean dark_mode) {
+	public void updateUserDarkMode(String name, Boolean dark_mode) {
 	    User user = getUser(name).get(0);
 	    user.setDark_mode(dark_mode); 
         userRepository.save(user);		
 	}
 
+	public void updateUserColumns(String name, HashMap<String, Boolean> columns) {
+	    User user = getUser(name).get(0);
+	    user.setColumns(columns);
+        userRepository.save(user);		
+	}
 
 }

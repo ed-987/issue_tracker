@@ -91,8 +91,8 @@ public class TicketController {
   	  }
   	  model.addAttribute("dark_mode",ScreenService.dark_mode);
   	  model.addAttribute("scroll_top",ScreenService.tickets_screen_top);
-  	  
-      logger.debug("slice:{} ",slice.getNumberOfElements());	
+  	  model.addAttribute("columns",ScreenService.columns);
+      //logger.debug("columns:{} ",ScreenService.columns.get("created").toString());	
   	  
       return "tickets";
     }
