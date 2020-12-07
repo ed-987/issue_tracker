@@ -31,11 +31,13 @@ public class ScreenController {
     
     @GetMapping("/columns")
     @ResponseBody
-    public String columns(@RequestParam(required = false) Boolean created) {
+    public String columns(@RequestParam(required = false) Boolean created,
+    		              @RequestParam(required = false) Boolean status) {
     
     	ScreenService.columns.put("created", created);
+    	ScreenService.columns.put("status", status);
     	userService.updateUserColumns(ScreenService.logged_in_user, ScreenService.columns);
-    	logger.debug("created:{}",created);
+    	//logger.debug("created:{}",created);
     	return null;
             
     }

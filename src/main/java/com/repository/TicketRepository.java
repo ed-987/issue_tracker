@@ -22,8 +22,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
 	List<Ticket> findByUser(String user);
 	List<Ticket> findByUserAndStatus(String user, String status);
 	
-	@Query("SELECT t FROM Ticket t WHERE (t.id = ?1 OR LOWER(t.title) LIKE %?2%) AND t.status LIKE %?3%")
-	Slice<Ticket> findByAndSort(Integer id, String title, String status, Pageable pageable);
+	@Query("SELECT t FROM Ticket t WHERE (t.id = ?1 OR LOWER(t.title) LIKE %?2%) AND t.status LIKE %?3% AND t.user LIKE %?4%")
+	Slice<Ticket> findByAndSort(Integer id, String title, String status, String user, Pageable pageable);
 	//List<Ticket> findByAndSort(Integer id, String title, Sort sort);
 
 

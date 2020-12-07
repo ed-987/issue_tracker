@@ -16,6 +16,7 @@ public class User {
   private Integer id;
 
   private String name;
+  private String email;
 
   private Boolean dark_mode;
   
@@ -61,7 +62,16 @@ public HashMap<String, Boolean> getColumns() {
 public void setColumns(HashMap<String, Boolean> columns) {
 	this.columns = columns;
 }
-  
+
+public String getEmail() {
+	return email;
+}
+
+public void setEmail(String email) {
+	this.email = email;
+}
+
+
 
   
 }

@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.model.User;
@@ -27,6 +30,7 @@ public class LoginListener implements ApplicationListener<InteractiveAuthenticat
     {
         //UserDetails userDetails = (UserDetails) event.getAuthentication().getPrincipal();
         // ...
+    	ScreenService.new_login=true;
     	
     	ScreenService.logged_in_user=event.getAuthentication().getName();
     	List<User> found_user = userService.getUser(ScreenService.logged_in_user);
@@ -42,8 +46,12 @@ public class LoginListener implements ApplicationListener<InteractiveAuthenticat
     		userService.saveUser(new User(ScreenService.logged_in_user, ScreenService.dark_mode, ScreenService.columns)); 		
     		
     	}
-    		
-    	//logger.debug("x123: {}",event.getAuthentication().getPrincipal());
+    	
+    	//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	//String currentPrincipalName = authentication.getName();
+        
+    	//MetadataUserDetails user = (MetadataUserDetails) event.getAuthentication().getPrincipal();
+    	//logger.debug("x123: {}",currentPrincipalName);
     }
 
 }

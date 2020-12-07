@@ -39,6 +39,9 @@ import com.service.TicketService;
 public class TicketController {
 	
 	@Autowired
+	private ScreenService screenService;
+	
+	@Autowired
 	private TicketService ticketService;
 	
 	@Autowired
@@ -54,10 +57,10 @@ public class TicketController {
     		@RequestParam(required = false, defaultValue = "") String filter, 
     		@RequestParam(required = false, defaultValue = "0") Integer page,
     		@RequestParam(required = false, defaultValue = "") String status, 
+    		@RequestParam(required = false, defaultValue = "") String user_sort, 
     		@RequestParam(required = false) Integer pagesize,
     		@AuthenticationPrincipal OAuth2User principal) throws JsonMappingException, JsonProcessingException {
       ScreenService.admin_screen_top=true;
-      model.addAttribute("admin",false);
       
       if(pagesize == null) {pagesize=TicketService.pageSize;}else {
     	  TicketService.pageSize=pagesize;
@@ -66,12 +69,13 @@ public class TicketController {
     	  sortascending=Boolean.parseBoolean(TicketService.sortascendingDefault);;
     	  TicketService.sort=sort;
       }
-      Slice<Ticket> slice = ticketService.findAllTickets(filter, sort, status, sortascending, page);
+      Slice<Ticket> slice = ticketService.findAllTickets(filter, sort, status, user_sort, sortascending, page);
       model.addAttribute("tickets", slice.getContent());
       model.addAttribute("sort", sort);
       model.addAttribute("sortascending", sortascending);
       model.addAttribute("filter", filter);
       model.addAttribute("status", status);
+      model.addAttribute("user_sort", user_sort);
       model.addAttribute("pagesize", pagesize);
       model.addAttribute("page", slice.getNumber());
       model.addAttribute("hasNext", slice.hasNext());
@@ -79,20 +83,17 @@ public class TicketController {
       String showing = (slice.getNumberOfElements()==0) ? " " : String.valueOf(1+slice.getNumber()*slice.getSize())+"-"+
     	        String.valueOf(slice.getNumber()*slice.getSize()+slice.getNumberOfElements());
       model.addAttribute("showing", showing);
-  	  if(principal != null) {
-		String user = principal.getAttribute("email");
-		model.addAttribute("user",user);
-        String roles = principal.getAttribute("http://role/").toString();
-      	@SuppressWarnings("unchecked")
- 		List<String> result = new ObjectMapper().readValue(roles, List.class);
-     	if(result.contains("ADMIN")) {
-     		model.addAttribute("admin",true);
-     	}
-  	  }
+      
+      if(screenService.check_login(principal)) {
+		model.addAttribute("user",ScreenService.user_email);
+    	model.addAttribute("admin",ScreenService.user_admin);
+      }
+
   	  model.addAttribute("dark_mode",ScreenService.dark_mode);
   	  model.addAttribute("scroll_top",ScreenService.tickets_screen_top);
   	  model.addAttribute("columns",ScreenService.columns);
-      //logger.debug("columns:{} ",ScreenService.columns.get("created").toString());	
+  	  model.addAttribute("users",ScreenService.users);
+      //logger.debug("users:{} ",ScreenService.users);	
   	  
       return "tickets";
     }
@@ -116,7 +117,8 @@ public class TicketController {
         Ticket ticket=ticketService.getTicket(id);
 		model.addAttribute("ticket", ticket);
     	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
-    	model.addAttribute("dark_mode",ScreenService.dark_mode);   	
+    	model.addAttribute("dark_mode",ScreenService.dark_mode); 
+    	model.addAttribute("users",ScreenService.users);
         return "open_ticket";
     }
     
@@ -143,6 +145,7 @@ public class TicketController {
    	    }
       }
   	  model.addAttribute("dark_mode",ScreenService.dark_mode);
+  	  model.addAttribute("users",ScreenService.users);
       return "new_ticket";
     }
     

@@ -57,7 +57,7 @@
 		<ul class="navbar-nav mx-auto" sec:authorize="isAuthenticated()">
 			<li class="nav-item" >
 				    <!-- Button trigger modal -->
-					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter" onclick="document.getElementById('save_columns').disabled = false;">
   						SETTINGS
 					</button>
 			</li>
@@ -107,6 +107,15 @@
       <div class="modal-body">
 		 <input type="checkbox" id="darkSwitch" />
          <label for="darkSwitch">Dark Mode</label>
+         <br>Add/remove table columns:
+        <br> 
+		<input type="checkbox" id="created_set" th:checked="${columns.get('created')}">
+		<label style="margin: 0;" for="created_set">Created</label>
+		<br> 
+		<input type="checkbox" id="status_set" th:checked="${columns.get('status')}">
+		<label style="margin: 0;" for="status_set">Status</label>
+		<br>
+		<button style="margin-top: 5px;" type="button" class="btn btn-primary btn-sm" id="save_columns" onclick="columns_set()">Save columns</button>
 
       </div>
       <div class="modal-footer">
@@ -124,15 +133,21 @@
 <script sec:authorize="isAuthenticated()" src="/JS/dark-mode-switch.js"></script>
 
 
-
-<input type="checkbox" id="columns_set" th:checked="${columns.get('created')}">
-<button type="button" onclick="columns_set()">save</button>
-
 <script type="text/javascript">
 
 function columns_set(){
-	var created=$("#columns_set").is(":checked");
-	$.get('/columns?created='+created);
+	var created=$("#created_set").is(":checked");
+	var status=$("#status_set").is(":checked");
+	var request = new XMLHttpRequest();
+	var url='/columns?created='+created+'&status='+status;
+	request.open('GET', url, false);  // `false` makes the request synchronous
+	request.send(null);
+
+	document.getElementById("save_columns").disabled = true; 
+	
+// 	if (request.status === 200) {
+// 	  alert(request.responseText);
+// 	}
 }
 
 </script>

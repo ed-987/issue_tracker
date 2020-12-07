@@ -1,9 +1,11 @@
 package com.service;	
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.model.Ticket;
@@ -36,6 +38,20 @@ public class UserService {
 	    User user = getUser(name).get(0);
 	    user.setColumns(columns);
         userRepository.save(user);		
+	}
+	public void updateUserEmail(String name, String email) {
+	    User user = getUser(name).get(0);
+	    user.setEmail(email);
+        userRepository.save(user);		
+	}
+	
+	public List<String> getUsers(){
+		List<User> users_list=userRepository.findAll(Sort.by(Sort.Direction.ASC, "email"));
+		List<String> users = new ArrayList<String>();
+		for(User user : users_list) {
+			users.add(user.getEmail());
+		}
+		return users;
 	}
 
 }

@@ -57,6 +57,7 @@
 						<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
 						<input th:if="${filter != null}" type="hidden" name="filter" th:value="${filter}" />
 						<input th:if="${status != null}" type="hidden" name="status" th:value="${status}" />
+						<input th:if="${user_sort != null}" type="hidden" name="user_sort" th:value="${user_sort}" />
 						<button type="submit" th:disabled="${!hasPrevious}">&#129072;</button>
 					</form>
 				</li>
@@ -70,6 +71,7 @@
 						<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
 						<input th:if="${filter != null}" type="hidden" name="filter" th:value="${filter}" />
 						<input th:if="${status != null}" type="hidden" name="status" th:value="${status}" />
+						<input th:if="${user_sort != null}" type="hidden" name="user_sort" th:value="${user_sort}" />
 						<input th:if="${sortascending != null}" type="hidden" name="sortascending" th:value="${sortascending}" />
 						<button type="submit" th:disabled="${!hasNext}">&#129074;</button>
 					</form>
@@ -93,7 +95,7 @@
   <div class="table-responsive tableFixHead" id="tickets_table">
     <table class="table table-bordered table-hover" >
 	 <thead>
-		<tr th:with="url=${'/tickets?filter='+filter+'&sortascending='+!sortascending+'&status='+status}">
+		<tr th:with="url=${'/tickets?filter='+filter+'&sortascending='+!sortascending+'&status='+status+'&user_sort='+user_sort}">
 		  <th style="width: 100px;"><a class="btn btn-primary " style="width:82px;" th:href="${url+'&sort=id'}">Id <span 
 		  		 th:if="${sort=='id' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='id' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
@@ -106,15 +108,20 @@
 		  		 th:if="${sort=='created' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='created' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='created'}">&#9660;/&#9650;</span></a></th>
-		  <th style="width: 181px;">Status&nbsp;&nbsp;<select name="status" id="status_dropdown"
-							onchange="changeStatus()">
-								<option th:selected="${status==''}" value="">all</option>
-								<option th:selected="${status=='new'}" value="new">new</option>
-								<option th:selected="${status=='in progress'}" value="in progress">in progress</option>
-								<option th:selected="${status=='pending'}" value="pending">pending</option>
-								<option th:selected="${status=='completed'}" value="completed">completed</option>
+		  <th th:if="${columns.get('status')}" style="width: 180px;">Status<br>
+		  				<select name="status" id="status_dropdown" onchange="changeStatus()">
+								<option th:selected="${status==''}" value="">All</option>
+								<option th:selected="${status=='New'}" value="New">New</option>
+								<option th:selected="${status=='In progress'}" value="In progress">In progress</option>
+								<option th:selected="${status=='Pending'}" value="Pending">Pending</option>
+								<option th:selected="${status=='Completed'}" value="Completed">Completed</option>
 						</select></th>
-		  <th>User</th>
+		  <th style="width: 180px;">User<br>
+		  				<select id="user_dropdown" onchange="changeUser()">
+		  						<option th:selected="${user_sort==''}" value="">All</option>
+								<option th:selected="${user_sort}==${option}?true:false" th:each="option : ${users}" th:value="${option}" th:text="${option}"></option>									
+						</select> 				
+		  </th>
        
 		</tr>
 	  </thead>
@@ -123,7 +130,7 @@
 		  <td th:text="${ticket.id_display}" />
 	   	  <td> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" />  </td>
 	   	  <td th:if="${columns.get('created')}" th:text="${ticket.getCreatedDateFormat()}" />
-		  <td th:text="${ticket.status}" />
+		  <td th:if="${columns.get('status')}" th:text="${ticket.status}" />
 		  <td th:text="${ticket.user}" />       
 		</tr>
 	  </tbody>
@@ -149,8 +156,12 @@ $('#tickets_table').scroll(function(){
 
 <script th:inline="javascript">
 function changeStatus(){
-	var add_url='&sortascending='+[[${sortascending}]]+'&sort='+[[${sort}]];
+	var add_url='&sortascending='+[[${sortascending}]]+'&sort='+[[${sort}]]+'&user_sort='+[[${user_sort}]];
 	window.location.href='http://localhost:3000/tickets?status='+document.getElementById("status_dropdown").value+add_url;
+}
+function changeUser(){
+	var add_url='&sortascending='+[[${sortascending}]]+'&sort='+[[${sort}]]+'&status='+[[${status}]];
+	window.location.href='http://localhost:3000/tickets?user_sort='+document.getElementById("user_dropdown").value+add_url;
 }
 function changePageSize(){
 	var add_url='&status='+[[${status}]];

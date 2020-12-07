@@ -44,6 +44,9 @@ import com.service.TicketService;
 public class AdminController {
 
 	@Autowired
+	private ScreenService screenService;
+	
+	@Autowired
 	private TicketService ticketService;
 	
 	@Autowired
@@ -64,8 +67,10 @@ public class AdminController {
     		) throws IOException{
     	ScreenService.tickets_screen_top=true;
     	SecurityTools.adminAuth(principal.getAttribute("http://role/").toString());   
-		String user = principal.getAttribute("email");
-		model.addAttribute("user",user);
+		
+	  	if(screenService.check_login(principal)) {
+			model.addAttribute("user",ScreenService.user_email);
+		}
 		
 	      if(pagesize == null) {pagesize=TicketService.pageSize;}else {
 	    	  TicketService.pageSize=pagesize;
@@ -76,7 +81,7 @@ public class AdminController {
 	      }
 	      
     	TicketsCreationDto ticketsForm = new TicketsCreationDto();
-        Slice<Ticket> slice = ticketService.findAllTickets(filter, sort, status, sortascending, page);
+        Slice<Ticket> slice = ticketService.findAllTickets(filter, sort, status, "", sortascending, page);
         List<Ticket> tickets = slice.getContent();
 
         for (int i = 0; i <= tickets.size()-1; i++) {
@@ -133,6 +138,7 @@ public class AdminController {
 		model.addAttribute("ticket", ticket);
     	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
     	model.addAttribute("dark_mode",ScreenService.dark_mode);
+    	model.addAttribute("users",ScreenService.users);
         return "admin_ticket";
     }
     

@@ -34,6 +34,9 @@ import com.service.TicketService;
 public class HomeController {
 
 	@Autowired
+	private ScreenService screenService;
+	
+	@Autowired
 	private TicketService ticketService;
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -41,26 +44,18 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal OAuth2User principal ) throws JsonMappingException, JsonProcessingException {
     	ScreenService.tickets_screen_top=true;
-    	ScreenService.admin_screen_top=true;
-    	model.addAttribute("admin",false);
-    	if(principal != null) {
-    		String user = principal.getAttribute("email");
-    		model.addAttribute("user",user);
-    		model.addAttribute("dashboard",ticketService.getDashboard(user));
-            String roles = principal.getAttribute("http://role/").toString();
-         	@SuppressWarnings("unchecked")
-    		List<String> result = new ObjectMapper().readValue(roles, List.class);
-        	if(result.contains("ADMIN")) {
-        		model.addAttribute("admin",true);
-        	}
-    	}
-     	
+    	ScreenService.admin_screen_top=true;   	
+    	
+    	if(screenService.check_login(principal)) {
+    		model.addAttribute("user",ScreenService.user_email);
+    		model.addAttribute("dashboard",ticketService.getDashboard(ScreenService.user_email));
+        	model.addAttribute("admin",ScreenService.user_admin);
+    	}    	    	
 		model.addAttribute("dark_mode",ScreenService.dark_mode);
 		model.addAttribute("columns",ScreenService.columns);
 
         return "index";
     }
-    
 
     @GetMapping("/user")
     @ResponseBody

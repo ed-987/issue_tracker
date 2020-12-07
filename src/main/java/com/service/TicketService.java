@@ -33,7 +33,7 @@ public class TicketService {
 		ticketRepository.save(ticket);	
 	}
 
-	public Slice<Ticket> findAllTickets(String filter, String sort, String status, Boolean sortAscending, Integer page) {
+	public Slice<Ticket> findAllTickets(String filter, String sort, String status, String user, Boolean sortAscending, Integer page) {
 		filter = filter.toLowerCase();
 		String filter_id = transformFilter(filter);
 
@@ -50,7 +50,7 @@ public class TicketService {
 		} else {
 		  pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC,sort,"id"));
 		}
-		return ticketRepository.findByAndSort(id, filter, status, pageable);
+		return ticketRepository.findByAndSort(id, filter, status, user, pageable);
 	}
 	
 	public Ticket getTicket(Integer id) {

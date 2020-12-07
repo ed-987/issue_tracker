@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.service.ScreenService;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -70,6 +72,7 @@ public class LogoutHandler extends SecurityContextLogoutHandler {
         } catch (IOException ioe) {
             log.error("Error redirecting to logout URL", ioe);
         }
+        ScreenService.user_admin=false;
     }
 
     /**
