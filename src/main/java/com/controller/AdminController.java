@@ -2,6 +2,7 @@ package com.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,7 +145,8 @@ public class AdminController {
     
     @PostMapping(path="/admin/update")
     public String adminUpdateTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
-      logger.debug("outp-ticket_update: {}",ticket.toString());
+      //logger.debug("outp-ticket_update: {}",ticket.toString());
+      ticket.setUpdated(new Date());
       ticketService.updateTicket(ticket);
       redir.addFlashAttribute("success", "ticket updated");
       return "redirect:/admin/open/"+ticket.getId().toString();

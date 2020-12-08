@@ -39,8 +39,8 @@
 			</li>
 		</ul>
 		<ul class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
-		    <li class="nav-item navbar-text" th:text="${user}"></li>
-			<li class="nav-item active"><a class="nav-link" th:href="@{/logout}">Sign-out</a>
+		    <li style="margin-left: 10px;width: 200px;" class="nav-item navbar-text" th:text="${user}"></li>
+			<li style="margin-left: 10px;width: 75px;" class="nav-item active"><a class="nav-link" th:href="@{/logout}">Sign-out</a>
 			</li>
 		</ul>
 		<ul class="navbar-nav ml-auto" sec:authorize="!isAuthenticated()">
@@ -77,15 +77,15 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>All tickets</td>
+							<td><a href="/tickets">All tickets</a></td>
 							<td class="text-center" th:text="${dashboard.get('allTickets')}"></td>
 						</tr>
 						<tr>
-							<td>My tickets</td>
+							<td><a th:href="${'/tickets?user_sort='+user}">My tickets</a></td>
 							<td class="text-center" th:text="${dashboard.get('myTickets')}"></td>
 						</tr>
 						<tr>
-							<td>My new tickets</td>
+							<td><a th:href="${'/tickets?status=New&user_sort='+user}">My new tickets</a></td>
 							<td class="text-center" th:text="${dashboard.get('myNewTickets')}"></td>						
 						</tr>
 					</tbody>
