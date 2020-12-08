@@ -31,27 +31,16 @@ public class LoginListener implements ApplicationListener<InteractiveAuthenticat
         //UserDetails userDetails = (UserDetails) event.getAuthentication().getPrincipal();
         // ...
     	ScreenService.new_login=true;
-    	
     	ScreenService.logged_in_user=event.getAuthentication().getName();
     	List<User> found_user = userService.getUser(ScreenService.logged_in_user);
-    	if(found_user.size()>0) {
-    		
+    	if(found_user.size()>0) {  		
     		ScreenService.dark_mode=found_user.get(0).getDark_mode();
     		ScreenService.columns = (found_user.get(0).getColumns() != null) ? found_user.get(0).getColumns() : ScreenService.columns;
-    		
-    	}else {
+     	}else {
     		ScreenService.dark_mode=false;
-    		//ScreenService.columns = new HashMap<String, Boolean>();
-    		//ScreenService.columns.put("created", true);
     		userService.saveUser(new User(ScreenService.logged_in_user, ScreenService.dark_mode, ScreenService.columns)); 		
-    		
     	}
-    	
-    	//Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	//String currentPrincipalName = authentication.getName();
-        
-    	//MetadataUserDetails user = (MetadataUserDetails) event.getAuthentication().getPrincipal();
-    	//logger.debug("x123: {}",currentPrincipalName);
+    	logger.debug("x123: {}",ScreenService.logged_in_user);
     }
 
 }

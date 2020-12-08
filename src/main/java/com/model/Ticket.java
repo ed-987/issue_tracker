@@ -31,6 +31,7 @@ public class Ticket {
   public Ticket() {
 	this.status = "New";
 	this.created = new Date();
+	this.updated = new Date();
   }
   
   public Ticket(String title, String description, String user, String status) {
@@ -40,6 +41,7 @@ public class Ticket {
 	this.user = user;
 	this.status = status;
 	this.created = new Date();
+	this.updated = new Date();
 }
 
 public Integer getId() {
@@ -126,6 +128,25 @@ public String getCreatedDateTimeFormat() {
 		SimpleDateFormat ft = 
 		new SimpleDateFormat ("yyyy.MM.dd HH:mm");
 		return ft.format(created);}
+	else {
+		return "2020.11.01 00:00";
+	}
+}
+
+public String getUpdatedDateFormat() {
+	if(updated != null) {
+		SimpleDateFormat ft = 
+		new SimpleDateFormat ("yyyy.MM.dd");
+		return ft.format(updated);}
+	else {
+		return "2020.11.01";
+	}
+}
+public String getUpdatedDateTimeFormat() {
+	if(updated != null) {
+		SimpleDateFormat ft = 
+		new SimpleDateFormat ("yyyy.MM.dd HH:mm");
+		return ft.format(updated);}
 	else {
 		return "2020.11.01 00:00";
 	}

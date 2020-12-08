@@ -65,6 +65,7 @@ public class TicketService {
 	    ticket.setStatus(t.getStatus()); 
         ticket.setDescription(t.getDescription()); 
         ticket.setUser(t.getUser()); 
+        ticket.setUpdated(t.getUpdated()); 
         ticketRepository.save(ticket);		
 	}
 

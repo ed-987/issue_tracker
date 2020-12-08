@@ -107,14 +107,15 @@
       <div class="modal-body">
 		 <input type="checkbox" id="darkSwitch" />
          <label for="darkSwitch">Dark Mode</label>
-         <br>Add/remove table columns:
-        <br> 
+         <br>Add/remove table columns:<br> 
+        <input type="checkbox" id="title_set" th:checked="${columns.get('title')}">
+		<label style="margin: 0;" for="title_set">Title</label><br> 
 		<input type="checkbox" id="created_set" th:checked="${columns.get('created')}">
-		<label style="margin: 0;" for="created_set">Created</label>
-		<br> 
+		<label style="margin: 0;" for="created_set">Created</label><br> 
 		<input type="checkbox" id="status_set" th:checked="${columns.get('status')}">
-		<label style="margin: 0;" for="status_set">Status</label>
-		<br>
+		<label style="margin: 0;" for="status_set">Status</label><br>
+		<input type="checkbox" id="updated_set" th:checked="${columns.get('updated')}">
+		<label style="margin: 0;" for="updated_set">Updated</label><br>
 		<button style="margin-top: 5px;" type="button" class="btn btn-primary btn-sm" id="save_columns" onclick="columns_set()">Save columns</button>
 
       </div>
@@ -138,8 +139,10 @@
 function columns_set(){
 	var created=$("#created_set").is(":checked");
 	var status=$("#status_set").is(":checked");
+	var updated=$("#updated_set").is(":checked");
+	var title=$("#title_set").is(":checked");
 	var request = new XMLHttpRequest();
-	var url='/columns?created='+created+'&status='+status;
+	var url='/columns?created='+created+'&status='+status+'&updated='+updated+'&title='+title;
 	request.open('GET', url, false);  // `false` makes the request synchronous
 	request.send(null);
 

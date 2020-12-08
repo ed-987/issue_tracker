@@ -74,6 +74,20 @@
 						</div>
 						
 					</div>
+					<div class="row">
+						<div class="col-4">
+							<label for="created_show">Created</label> <input
+								type="text" class="form-control mb-2" id="created_show"
+								th:value="${ticket.getCreatedDateTimeFormat()}" readonly>
+						</div>
+						
+						<div class="col-4">
+							<label for="updated_show">Updated</label> <input type="text"
+								class="form-control mb-2" id="updated_show"	
+								th:value="${ticket.getUpdatedDateTimeFormat()}" readonly>
+						</div>
+						
+					</div>
 					<div class=row>
 						<div class="col-4">
 							<label for="inputStatus">Status</label> 

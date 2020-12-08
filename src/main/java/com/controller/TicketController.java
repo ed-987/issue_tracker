@@ -88,12 +88,11 @@ public class TicketController {
 		model.addAttribute("user",ScreenService.user_email);
     	model.addAttribute("admin",ScreenService.user_admin);
       }
-
   	  model.addAttribute("dark_mode",ScreenService.dark_mode);
   	  model.addAttribute("scroll_top",ScreenService.tickets_screen_top);
   	  model.addAttribute("columns",ScreenService.columns);
   	  model.addAttribute("users",ScreenService.users);
-      //logger.debug("users:{} ",ScreenService.users);	
+      //logger.debug("users:{} ",principal);	
   	  
       return "tickets";
     }
@@ -160,7 +159,8 @@ public class TicketController {
 
     @PostMapping(path="/ticket/update")
     public String updateTicket(@ModelAttribute Ticket ticket, RedirectAttributes redir) {
-      logger.debug("outp-ticket_update: {}",ticket.toString());
+      //logger.debug("outp-ticket_update: {}",ticket.toString());
+      ticket.setUpdated(new Date());
       ticketService.updateTicket(ticket);
       redir.addFlashAttribute("success", "Ticket updated");
       return "redirect:/ticket/open/"+ticket.getId().toString();

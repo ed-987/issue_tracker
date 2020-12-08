@@ -18,10 +18,8 @@ public class UserService {
 	@Autowired
 	UserRepository userRepository;
 	
-	public List<User> getUser(String name) {
-		
+	public List<User> getUser(String name) {		
 		return userRepository.findByName(name);
-		
 	}
 	
 	public void saveUser(User user) {

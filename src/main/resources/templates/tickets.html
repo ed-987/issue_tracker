@@ -100,7 +100,7 @@
 		  		 th:if="${sort=='id' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='id' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='id'}">&#9660;/&#9650;</span></a></th>		  
-		  <th><a class="btn btn-primary " style="width:100px;" th:href="${url+'&sort=title'}">Title <span 
+		  <th th:if="${columns.get('title')}"><a class="btn btn-primary " style="width:100px;" th:href="${url+'&sort=title'}">Title <span 
 		  		 th:if="${sort=='title' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='title' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='title'}">&#9660;/&#9650;</span></a></th>
@@ -108,28 +108,30 @@
 		  		 th:if="${sort=='created' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='created' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='created'}">&#9660;/&#9650;</span></a></th>
-		  <th th:if="${columns.get('status')}" style="width: 180px;">Status<br>
-		  				<select name="status" id="status_dropdown" onchange="changeStatus()">
+		  <th class="text-center" th:if="${columns.get('updated')}" style="width: 124px;">Updated</th>
+		  <th th:if="${columns.get('status')}" style="width: 180px;">
+		  				<select name="status" id="status_dropdown" style="margin-bottom: 3px;font-size: 14px;" onchange="changeStatus()">
 								<option th:selected="${status==''}" value="">All</option>
 								<option th:selected="${status=='New'}" value="New">New</option>
 								<option th:selected="${status=='In progress'}" value="In progress">In progress</option>
 								<option th:selected="${status=='Pending'}" value="Pending">Pending</option>
 								<option th:selected="${status=='Completed'}" value="Completed">Completed</option>
-						</select></th>
-		  <th style="width: 180px;">User<br>
-		  				<select id="user_dropdown" onchange="changeUser()">
+						</select><br>Status</th>
+		  <th style="width: 180px;">
+		  				<select id="user_dropdown" style="margin-bottom: 3px;font-size: 14px;" onchange="changeUser()">
 		  						<option th:selected="${user_sort==''}" value="">All</option>
 								<option th:selected="${user_sort}==${option}?true:false" th:each="option : ${users}" th:value="${option}" th:text="${option}"></option>									
-						</select> 				
+						</select><br>User
 		  </th>
        
 		</tr>
 	  </thead>
 	  <tbody>
 		<tr th:each="ticket: ${tickets}">
-		  <td th:text="${ticket.id_display}" />
-	   	  <td> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" />  </td>
-	   	  <td th:if="${columns.get('created')}" th:text="${ticket.getCreatedDateFormat()}" />
+		  <td class="text-center" th:text="${ticket.id_display}" />
+	   	  <td th:if="${columns.get('title')}"> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" />  </td>
+	   	  <td class="text-center" th:if="${columns.get('created')}" th:text="${ticket.getCreatedDateFormat()}" />
+	   	  <td class="text-center" th:if="${columns.get('updated')}" th:text="${ticket.getUpdatedDateFormat()}" />
 		  <td th:if="${columns.get('status')}" th:text="${ticket.status}" />
 		  <td th:text="${ticket.user}" />       
 		</tr>
