@@ -1,7 +1,10 @@
 package com.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,6 +105,15 @@ public class TicketService {
 		filter = filter.replace("inc0", "");
 		filter = filter.replace("inc", "");
 		return filter;
+	}
+	
+	public Set<String> getUsers(){
+		List<Ticket> tickets=ticketRepository.findAll();
+		Set<String> hash_Set = new HashSet<String>(); 
+		for(Ticket ticket: tickets) {
+			hash_Set.add(ticket.getUser());
+		}
+		return hash_Set;
 	}
 
 

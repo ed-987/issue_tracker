@@ -1,11 +1,12 @@
 :root {
   --color-bg: #ecf4f9;
   --color-bg-th: 0000ff;
-  --color-a: #007bff;
+  --color-a: #29209e;
   --color-a-hover: #0056b3;
   --color-body-font: #212529;
   --color-btn-outl-succ-border: lightgray; 
   --color-table-class: #272121;
+  --bg-main: url("/images/background-table.jpg");
 }
 
 [data-theme="dark"] {
@@ -16,15 +17,28 @@
   --color-body-font: white;
   --color-btn-outl-succ-border: white;
   --color-table-class: white;
+  --bg-table: null;
 }
 
-body {
+body, html {
   background-color: var(--color-bg);
+  background-image: var(--bg-main);
   color: var(--color-body-font); 
+  
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+/*   height: 100%; */
+  margin: 0;
 }
 
-[data-theme="dark"] th {
-  background-color: #343a40 !important;
+.bg {
+  background-image: url("/images/background-main.jpeg");
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .table {

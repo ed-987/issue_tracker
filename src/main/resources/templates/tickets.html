@@ -1,16 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head>
- 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="/CSS/styles.css" />
-      
-</head>
-    <body>
+<head lang="en" th:replace="fragments/head :: head"> </head>
+
+<body>
 
 	<script th:inline="javascript">
     if([[${dark_mode}]]){
@@ -22,64 +13,10 @@
     </script>
 
 	<div class="sticky-top">
-		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
-				<li class="nav-item active"><a class="nav-link" href="/tickets">TICKETS</a>
-				</li>
-				<li th:if="${admin}" class="nav-item"><a class="nav-link"
-					href="/admin">ADMIN</a>
-				</li>
-			</ul>
-			<form class="form-inline my-2 my-lg-0 ml-auto" th:action="@{/tickets}" method="get">
-				<input class="form-control mr-sm-2" name="filter" th:value="${filter}" type="search" placeholder="Search"
-					aria-label="Search">
-				<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
-				<button class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="submit">Search</button>
-			</form>
-			<ul class="navbar-nav ml-auto">
-				<li style="margin-left: 10px;width: 200px;" class="nav-item navbar-text" th:text="${user}"></li>
-				<li style="margin-left: 10px;width: 75px;" class="nav-item active"><a class="nav-link"
-					th:href="@{/logout}">Sign-out</a></li>
-			</ul>
-		</nav>
-
-		<nav class="navbar navbar-expand-sm navbar-light navbar2-bg">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a href="/ticket/new"
-					class="btn btn-secondary">New ticket</a></li>
-				<li class="align-self-center" style="margin-left: 50px; display: flex;">
-					<form class="form-inline my-2 my-lg-0" th:action="@{/tickets}"
-						method="get">
-						<input type="hidden" name="page" th:value="${page-1}" />
-						<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
-						<input th:if="${filter != null}" type="hidden" name="filter" th:value="${filter}" />
-						<input th:if="${status != null}" type="hidden" name="status" th:value="${status}" />
-						<input th:if="${user_sort != null}" type="hidden" name="user_sort" th:value="${user_sort}" />
-						<button type="submit" th:disabled="${!hasPrevious}">&#129072;</button>
-					</form>
-				  <span class="align-self-center" th:text="${'&nbsp;'+showing+'&nbsp;'}"></span>
-					<form class="form-inline my-2 my-lg-0" th:action="@{/tickets}"
-						method="get">
-						<input type="hidden" name="page" th:value="${page+1}" />
-						<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
-						<input th:if="${filter != null}" type="hidden" name="filter" th:value="${filter}" />
-						<input th:if="${status != null}" type="hidden" name="status" th:value="${status}" />
-						<input th:if="${user_sort != null}" type="hidden" name="user_sort" th:value="${user_sort}" />
-						<input th:if="${sortascending != null}" type="hidden" name="sortascending" th:value="${sortascending}" />
-						<button type="submit" th:disabled="${!hasNext}">&#129074;</button>
-					</form>
-				  <select style="margin-left: 25px;" name="pagesize" id="pagesize_dropdown"
-							onchange="changePageSize()">
-								<option th:selected="${pagesize==10}" value="10">10</option>
-								<option th:selected="${pagesize==25}" value="25">25</option>
-								<option th:selected="${pagesize==50}" value="50">50</option>
-				  </select>
-				  <span class="align-self-center">&nbsp;items per page</span>
-				</li>
-			</ul>
-		</nav>
+      <nav lang="en" th:replace="fragments/header :: navbar1(active_page='tickets',search=true)"> </nav>
+      <nav lang="en" th:replace="fragments/header :: navbar2(active_page='tickets')"> </nav>
 	</div>
+	
 	<div class="container">
 
   <div class="table-responsive tableFixHead" id="tickets_table">
@@ -160,7 +97,6 @@ function changePageSize(){
 	window.location.href='http://localhost:3000/tickets?pagesize='+document.getElementById("pagesize_dropdown").value+add_url;
 }
 </script>
-
 
 </body>
 </html>

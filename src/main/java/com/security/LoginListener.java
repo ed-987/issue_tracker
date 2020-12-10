@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.model.User;
 import com.service.ScreenService;
+import com.service.TicketService;
 import com.service.UserService;
 
 @Component
@@ -22,6 +23,9 @@ public class LoginListener implements ApplicationListener<InteractiveAuthenticat
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired 
+	TicketService ticketService;
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 

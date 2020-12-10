@@ -1,7 +1,9 @@
 package com.service;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -17,6 +19,9 @@ public class ScreenService {
 	
 	@Autowired 
 	UserService userService;
+	
+	@Autowired 
+	TicketService ticketService;
 	
 	public static boolean dark_mode = false;
 	@SuppressWarnings("serial")
@@ -36,7 +41,7 @@ public class ScreenService {
 	public static Boolean new_login = false;
 	public static String user_email;
 	public static Boolean user_admin=false;
-	public static List<String> users;
+	public static Set<String> users;
 	
 	public Boolean check_login(OAuth2User principal) throws JsonMappingException, JsonProcessingException {	    				
 		if(principal != null) {
@@ -48,6 +53,7 @@ public class ScreenService {
 			if(new_login) {
 				new_login=false;
 				userService.updateUserEmail(logged_in_user, user_email);
+				users.add(user_email);
 			}			
 			if(restarted) {
 				restarted = false;
@@ -61,8 +67,9 @@ public class ScreenService {
 		    		userService.saveUser(new User(logged_in_user, dark_mode, columns)); 	
 		    		userService.updateUserEmail(logged_in_user, user_email);
 		    	}
+		      users=ticketService.getUsers();
+		      users.add(user_email);
 			}
-			users=userService.getUsers();
 			return true;
 		}else {
 			return false;

@@ -1,0 +1,63 @@
+		<nav th:fragment="navbar1" class="navbar navbar-expand-md bg-dark navbar-dark">
+			<ul class="navbar-nav">
+				<li class="nav-item" th:classappend="${active_page=='home'} ? active"><a class="nav-link" href="/">HOME</a></li>
+				<li class="nav-item" th:classappend="${active_page=='tickets'} ? active"><a class="nav-link" href="/tickets">TICKETS</a>
+				</li>
+				<li th:if="${admin}" class="nav-item" th:classappend="${active_page=='admin'} ? active"><a class="nav-link"
+					href="/admin">ADMIN</a>
+				</li>
+			</ul>
+			<form th:if="${search}" class="form-inline my-2 my-lg-0 ml-auto" th:action="@{/__${active_page}__}" method="get">
+				<input class="form-control mr-sm-2" name="filter" th:value="${filter}" type="search" placeholder="Search"
+					aria-label="Search">
+				<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
+				<button class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="submit">Search</button>
+			</form>
+			<ul class="navbar-nav ml-auto">
+				<li style="margin-left: 10px;" class="nav-item navbar-text" th:text="${user}"></li>
+				<li style="margin-left: 10px;" class="nav-item active ml-auto"><a class="nav-link"
+					th:href="@{/logout}">Sign-out</a></li>
+			</ul>
+		</nav>
+
+		<nav th:fragment="navbar2" class="navbar navbar-expand-sm navbar-light navbar2-bg bg">
+			<ul class="navbar-nav" th:classappend="${active_page=='admin'} ? mx-auto">
+				<li th:if="${active_page=='tickets'}" class="nav-item"><a href="/ticket/new"
+					class="btn btn-secondary">New ticket</a></li>
+				<li class="align-self-center" style="margin-left: 50px; display: flex;">
+					<form class="form-inline my-2 my-lg-0" th:action="@{/__${active_page}__}"
+						method="get">
+						<input type="hidden" name="page" th:value="${page-1}" />
+						<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
+						<input th:if="${filter != null}" type="hidden" name="filter" th:value="${filter}" />
+						<input th:if="${status != null}" type="hidden" name="status" th:value="${status}" />
+						<input th:if="${user_sort != null}" type="hidden" name="user_sort" th:value="${user_sort}" />
+						<button type="submit" th:disabled="${!hasPrevious}">&#129072;</button>
+					</form>
+				  <span class="align-self-center" th:text="${'&nbsp;'+showing+'&nbsp;'}"></span>
+					<form class="form-inline my-2 my-lg-0" th:action="@{/__${active_page}__}"
+						method="get">
+						<input type="hidden" name="page" th:value="${page+1}" />
+						<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
+						<input th:if="${filter != null}" type="hidden" name="filter" th:value="${filter}" />
+						<input th:if="${status != null}" type="hidden" name="status" th:value="${status}" />
+						<input th:if="${user_sort != null}" type="hidden" name="user_sort" th:value="${user_sort}" />
+						<input th:if="${sortascending != null}" type="hidden" name="sortascending" th:value="${sortascending}" />
+						<button type="submit" th:disabled="${!hasNext}">&#129074;</button>
+					</form>
+				  <select style="margin-left: 25px;" name="pagesize" id="pagesize_dropdown"
+							onchange="changePageSize()">
+								<option th:selected="${pagesize==10}" value="10">10</option>
+								<option th:selected="${pagesize==25}" value="25">25</option>
+								<option th:selected="${pagesize==50}" value="50">50</option>
+				  </select>
+				  <span class="align-self-center">&nbsp;items per page</span>
+				</li>
+				<li th:if="${active_page=='admin'}" class="nav-item" style="margin-left: 20px;">
+				  <!-- Button trigger modal -->
+					<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">
+  						DELETE SELECTED
+					</button>
+				</li>
+			</ul>
+		</nav>

@@ -71,15 +71,16 @@ public class AdminController {
 		
 	  	if(screenService.check_login(principal)) {
 			model.addAttribute("user",ScreenService.user_email);
+	    	model.addAttribute("admin",ScreenService.user_admin);
 		}
 		
-	      if(pagesize == null) {pagesize=TicketService.pageSize;}else {
+	    if(pagesize == null) {pagesize=TicketService.pageSize;}else {
 	    	  TicketService.pageSize=pagesize;
-	      }
-	      if(!sort.equals(TicketService.sort)) {
-	    	  sortascending=Boolean.parseBoolean(TicketService.sortascendingDefault);;
-	    	  TicketService.sort=sort;
-	      }
+	    }
+	    if(!sort.equals(TicketService.sort)) {
+	      sortascending=Boolean.parseBoolean(TicketService.sortascendingDefault);;
+	      TicketService.sort=sort;
+	    }
 	      
     	TicketsCreationDto ticketsForm = new TicketsCreationDto();
         Slice<Ticket> slice = ticketService.findAllTickets(filter, sort, status, "", sortascending, page);

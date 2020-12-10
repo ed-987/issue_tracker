@@ -92,7 +92,7 @@ public class TicketController {
   	  model.addAttribute("scroll_top",ScreenService.tickets_screen_top);
   	  model.addAttribute("columns",ScreenService.columns);
   	  model.addAttribute("users",ScreenService.users);
-      //logger.debug("users:{} ",principal);	
+      //logger.debug("users:{} ",ScreenService.users);	
   	  
       return "tickets";
     }
