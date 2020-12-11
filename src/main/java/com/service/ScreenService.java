@@ -49,12 +49,7 @@ public class ScreenService {
 			String roles = principal.getAttribute("http://role/").toString();
 			@SuppressWarnings("unchecked")
 			List<String> result = new ObjectMapper().readValue(roles, List.class);
-			user_admin= result.contains("ADMIN");
-			if(new_login) {
-				new_login=false;
-				userService.updateUserEmail(logged_in_user, user_email);
-				users.add(user_email);
-			}			
+			user_admin= result.contains("ADMIN");		
 			if(restarted) {
 				restarted = false;
 				logged_in_user = principal.getName();
@@ -70,6 +65,11 @@ public class ScreenService {
 		      users=ticketService.getUsers();
 		      users.add(user_email);
 			}
+			if(new_login) {
+				new_login=false;
+				userService.updateUserEmail(logged_in_user, user_email);
+				users.add(user_email);
+			}	
 			return true;
 		}else {
 			return false;

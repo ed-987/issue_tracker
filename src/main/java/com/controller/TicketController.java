@@ -103,16 +103,10 @@ public class TicketController {
     	ScreenService.tickets_screen_top=false;
     	model.addAttribute("activity",new Activity());
         model.addAttribute("statusOptions", TicketService.getStatusoptions());
-        if(principal != null) {
-    		String user = principal.getAttribute("email");
-    		model.addAttribute("user",user);
-            String roles = principal.getAttribute("http://role/").toString();
-          	@SuppressWarnings("unchecked")
-     		List<String> result = new ObjectMapper().readValue(roles, List.class);
-         	if(result.contains("ADMIN")) {
-         		model.addAttribute("admin",true);
-         	}
-    	}
+        if(screenService.check_login(principal)) {
+    		model.addAttribute("user",ScreenService.user_email);
+        	model.addAttribute("admin",ScreenService.user_admin);
+        }
         Ticket ticket=ticketService.getTicket(id);
 		model.addAttribute("ticket", ticket);
     	model.addAttribute("activityHistory", activityService.getActivityHistory(ticket.getId()));
@@ -135,13 +129,9 @@ public class TicketController {
       	model.addAttribute("ticket", ticket);
       	logger.debug("ticket:{}",ticket.toString());
       }
-      if(principal != null) {
-        String roles = principal.getAttribute("http://role/").toString();
-        @SuppressWarnings("unchecked")
-	    List<String> result = new ObjectMapper().readValue(roles, List.class);
-        if(result.contains("ADMIN")) {
-   		  model.addAttribute("admin",true);
-   	    }
+      if(screenService.check_login(principal)) {
+		model.addAttribute("user",ScreenService.user_email);
+    	model.addAttribute("admin",ScreenService.user_admin);
       }
   	  model.addAttribute("dark_mode",ScreenService.dark_mode);
   	  model.addAttribute("users",ScreenService.users);

@@ -1,8 +1,7 @@
 		<nav th:fragment="navbar1" class="navbar navbar-expand-md bg-dark navbar-dark">
 			<ul class="navbar-nav">
-				<li class="nav-item" th:classappend="${active_page=='home'} ? active"><a class="nav-link" href="/">HOME</a></li>
-				<li class="nav-item" th:classappend="${active_page=='tickets'} ? active"><a class="nav-link" href="/tickets">TICKETS</a>
-				</li>
+			    <li class="nav-item" style="display: flex;" th:classappend="${active_page=='home'} ? active"><a class="nav-link align-self-center" style="padding: 0;" href="/"><img style="height: 33px;" src="/images/logo.jpg"></a>&nbsp;<a class="nav-link" href="/">HOME</a></li>
+				<li class="nav-item" th:classappend="${active_page=='tickets'} ? active"><a class="nav-link" href="/tickets">TICKETS</a></li>
 				<li th:if="${admin}" class="nav-item" th:classappend="${active_page=='admin'} ? active"><a class="nav-link"
 					href="/admin">ADMIN</a>
 				</li>
@@ -20,7 +19,7 @@
 			</ul>
 		</nav>
 
-		<nav th:fragment="navbar2" class="navbar navbar-expand-sm navbar-light navbar2-bg bg">
+		<nav th:fragment="navbar2" class="navbar navbar-expand-sm navbar-light navbar2-bg">
 			<ul class="navbar-nav" th:classappend="${active_page=='admin'} ? mx-auto">
 				<li th:if="${active_page=='tickets'}" class="nav-item"><a href="/ticket/new"
 					class="btn btn-secondary">New ticket</a></li>

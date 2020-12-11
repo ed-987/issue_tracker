@@ -7,6 +7,7 @@
   --color-btn-outl-succ-border: lightgray; 
   --color-table-class: #272121;
   --bg-main: url("/images/background-table.jpg");
+  --bg-navbar: url("/images/bg-navbar.jpg");
 }
 
 [data-theme="dark"] {
@@ -17,7 +18,8 @@
   --color-body-font: white;
   --color-btn-outl-succ-border: white;
   --color-table-class: white;
-  --bg-table: null;
+  --bg-main: null;
+  --bg-navbar: null;
 }
 
 body, html {
@@ -33,8 +35,12 @@ body, html {
   margin: 0;
 }
 
-.bg {
-  background-image: url("/images/background-main.jpeg");
+.navbar2-bg {
+  background-image: var(--bg-navbar);
+  
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #1f1f67;
 
   background-position: center;
   background-repeat: no-repeat;
@@ -99,10 +105,6 @@ body, html {
 
 [data-href] {
 	cursor: pointer;
-}
-
-.navbar2-bg {
-	background-color: #dbdbdb;
 }
 
 H6 {
