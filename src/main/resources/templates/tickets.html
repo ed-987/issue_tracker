@@ -23,20 +23,20 @@
     <table class="table table-bordered table-hover" >
 	 <thead>
 		<tr th:with="url=${'/tickets?filter='+filter+'&sortascending='+!sortascending+'&status='+status+'&user_sort='+user_sort}">
-		  <th style="width: 100px;"><a class="btn btn-primary " style="width:82px;" th:href="${url+'&sort=id'}">Id <span 
+		  <th data-resizable-column-id="id" style="width: 100px;"><a class="btn btn-primary " style="width:82px;" th:href="${url+'&sort=id'}">Id <span 
 		  		 th:if="${sort=='id' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='id' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='id'}">&#9660;/&#9650;</span></a></th>		  
-		  <th th:if="${columns.get('title')}"><a class="btn btn-primary " style="width:100px;" th:href="${url+'&sort=title'}">Title <span 
+		  <th data-resizable-column-id="title" th:if="${columns.get('title')}"><a class="btn btn-primary " style="width:100px;" th:href="${url+'&sort=title'}">Title <span 
 		  		 th:if="${sort=='title' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='title' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='title'}">&#9660;/&#9650;</span></a></th>
-		  <th th:if="${columns.get('created')}" style="width: 124px;"><a class="btn btn-primary " style="width:124px;" th:href="${url+'&sort=created'}">Created <span 
+		  <th data-resizable-column-id="created" th:if="${columns.get('created')}" style="width: 124px;"><a class="btn btn-primary " style="width:124px;" th:href="${url+'&sort=created'}">Created <span 
 		  		 th:if="${sort=='created' and sortascending}" style="color: black;">&nbsp;&#9660;</span><span 
 		  		 th:if="${sort=='created' and !sortascending}" style="color: black;">&nbsp;&#9650;</span><span
 		  		 th:if="${sort!='created'}">&#9660;/&#9650;</span></a></th>
-		  <th class="text-center" th:if="${columns.get('updated')}" style="width: 124px;">Updated</th>
-		  <th th:if="${columns.get('status')}" style="width: 180px;">
+		  <th data-resizable-column-id="updated" class="text-center" th:if="${columns.get('updated')}" style="width: 124px;">Updated</th>
+		  <th data-resizable-column-id="status" th:if="${columns.get('status')}" style="width: 180px;">
 		  				<select name="status" id="status_dropdown" style="margin-bottom: 3px;font-size: 14px;" onchange="changeStatus()">
 								<option th:selected="${status==''}" value="">All</option>
 								<option th:selected="${status=='New'}" value="New">New</option>
@@ -44,21 +44,20 @@
 								<option th:selected="${status=='Pending'}" value="Pending">Pending</option>
 								<option th:selected="${status=='Completed'}" value="Completed">Completed</option>
 						</select><br>Status</th>
-		  <th style="width: 320px;">
+		  <th data-resizable-column-id="user" style="width: 320px;">
 		  				<select id="user_dropdown" style="margin-bottom: 3px;font-size: 14px;" onchange="changeUser()">
 		  						<option th:selected="${user_sort==''}" value="">All</option>
 								<option th:selected="${user_sort}==${option}?true:false" th:each="option : ${users}" th:value="${option}" th:text="${option}"></option>									
-						</select><br>User
-		  </th>
-       
+						</select><br>User</th>
+      
 		</tr>
 	  </thead>
 	  <tbody>
 		<tr th:each="ticket: ${tickets}">
 		  <td class="text-center" th:text="${ticket.id_display}" />
 	   	  <td th:if="${columns.get('title')}"> <a th:href="${'/ticket/open/'+ticket.id}" th:text="${ticket.title}" />  </td>
-	   	  <td class="text-center" th:if="${columns.get('created')}" th:text="${ticket.getCreatedDateFormat()}" />
-	   	  <td class="text-center" th:if="${columns.get('updated')}" th:text="${ticket.getUpdatedDateFormat()}" />
+	   	  <td th:if="${columns.get('created')}" th:text="${ticket.getCreatedDateFormat()}" />
+	   	  <td th:if="${columns.get('updated')}" th:text="${ticket.getUpdatedDateFormat()}" />
 		  <td th:if="${columns.get('status')}" th:text="${ticket.status}" />
 		  <td th:text="${ticket.user}" />       
 		</tr>
@@ -66,7 +65,6 @@
     </table>
   </div>
 </div>
-
 
 						
 
@@ -97,6 +95,16 @@ function changePageSize(){
 	window.location.href='http://localhost:3000/tickets?pagesize='+document.getElementById("pagesize_dropdown").value+add_url;
 }
 </script>
+
+<script src="JS/jquery.resizableColumns.min.js"></script>
+<script>
+    $(function(){
+      $("table").resizableColumns({
+        store: window.store
+      });
+    });
+</script>
+
 
 </body>
 </html>
