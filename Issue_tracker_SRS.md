@@ -7,8 +7,8 @@ Managers.
 ### 1.3 Intended Use
 Users and managers.
 ### 1.4 Scope
--better, more organized issue management
--ability to get up to date information
+###### -better, more organized issue management
+###### -ability to get up to date information
 ### 1.5 Definitions and Acronyms
 Once this system is used, it will be difficult afterwards to handle issues if the system is down.
 ## 2. Overall Description
