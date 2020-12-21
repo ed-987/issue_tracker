@@ -1,9 +1,11 @@
+test
+
 ## 1. Introduction
 Issue tracker is a web application that can handle and track issues.
 ### 1.1 Purpose
 You can manage issue activities from start to end. Users with specific permissions can manage these issues.
 ### 1.2 Intended Audience
-Managers
+Managers.
 ### 1.3 Intended Use
 Users and managers.
 ### 1.4 Scope
