@@ -7,6 +7,9 @@ Issue Tracker is a web based ticketing system.
 
 This web application has been created in Spring Boot. It can handle support tickets and has all CRUD(create,read,update,delete) operations.
 
+## SRS (Software requirements specification) document
+[SRS](https://github.com/ed-987/issue_tracker/blob/main/Issue_tracker_SRS.docx)
+
 ### Screen shots
 
 #### Home page
