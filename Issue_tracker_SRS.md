@@ -1,19 +1,9 @@
-#test
-
-
-yagdwuqyd
-wdijq;woid
-edwef
-efwefef
-j
-
-
 ## 1. Introduction
 Issue tracker is a web application that can handle and track issues.
 ### 1.1 Purpose
 You can manage issue activities from start to end. Users with specific permissions can manage these issues.
-### 1.2 Intended Audience
 Managers.
+### 1.2 Intended Audience
 ### 1.3 Intended Use
 Users and managers.
 ### 1.4 Scope
@@ -30,7 +20,7 @@ manager: who monitors the issues
 
 ## 3. System Features and Requirements
 ### 3.1 Functional Requirements
--Security: login and authentication
+-Security: login and authentication  
 -Database:  
 	repository method: Hibernate  
 	DB name: issue_tracker_db  
