@@ -2,9 +2,6 @@ package com.security;
 
 import java.util.List;
 
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

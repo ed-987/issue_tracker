@@ -3,13 +3,10 @@ package com.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.model.Activity;
-import com.model.Ticket;
 import com.repository.ActivityRepository;
-import com.repository.TicketRepository;
 
 @Service
 public class ActivityService {
