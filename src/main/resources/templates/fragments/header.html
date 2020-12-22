@@ -12,10 +12,14 @@
 				<input th:if="${sort != null}" type="hidden" name="sort" th:value="${sort}" />
 				<button class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="submit">Search</button>
 			</form>
-			<ul class="navbar-nav ml-auto">
+			<ul class="navbar-nav ml-auto" sec:authorize="isAuthenticated()">
 				<li style="margin-left: 10px;" class="nav-item navbar-text" th:text="${user}"></li>
 				<li style="margin-left: 10px;" class="nav-item active ml-auto"><a class="nav-link"
 					th:href="@{/logout}">Sign-out</a></li>
+			</ul>
+			<ul class="navbar-nav ml-auto" sec:authorize="!isAuthenticated()">
+				<li style="margin-left: 10px;" class="nav-item active ml-auto"><a class="nav-link"
+					th:href="@{/oauth2/authorization/auth0}">Sign-in</a></li>
 			</ul>
 		</nav>
 

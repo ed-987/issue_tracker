@@ -22,6 +22,8 @@
   --bg-navbar: null;
 }
 
+html { height: auto; }
+
 body, html {
   background-color: var(--color-bg);
   background-image: var(--bg-main);
