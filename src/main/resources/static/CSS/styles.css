@@ -1,6 +1,6 @@
 :root {
   --color-bg: #ecf4f9;
-  --color-bg-th: 0000ff;
+  --color-bg-th: #0000ff;
   --color-a: #29209e;
   --color-a-hover: #0056b3;
   --color-body-font: #212529;
@@ -22,7 +22,10 @@
   --bg-navbar: null;
 }
 
-html { height: auto; }
+html { height: 100%; }
+body {
+    min-height: 100%;
+}
 
 body, html {
   background-color: var(--color-bg);
@@ -33,6 +36,7 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
   
+/*   min-height: 100%; */
 /*   height: 100%; */
   margin: 0;
 }
@@ -56,6 +60,7 @@ body, html {
 [data-theme="dark"] .navbar-light {
   background-color: #595a5a !important;
 }
+
 
 [data-theme="dark"] .btn-primary {
   background-color: #6c757d !important;
@@ -115,7 +120,7 @@ H6 {
 
 .tableFixHead {
 	overflow-y: auto;
-	height: 473px;
+/* 	height: 473px; */
 	margin-top: -1px;
 }
 
