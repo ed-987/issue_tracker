@@ -10,8 +10,8 @@ This web application has been created in Spring Boot. It can handle support tick
 ### SRS document
 Link to document: [SRS](https://github.com/ed-987/issue_tracker/blob/main/Issue_tracker_SRS.md) (Software requirements specification)
 
-### Application demo
-Link: [Demo](http://issuetracker-env.eba-ev5iyubp.eu-west-2.elasticbeanstalk.com)
+<!-- ### Application demo
+Link: [Demo](http://issuetracker-env.eba-ev5iyubp.eu-west-2.elasticbeanstalk.com) -->
 
 ### Screen shots
 

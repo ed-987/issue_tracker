@@ -44,10 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  //to access H2 console:
           http.csrf().disable();
 	      http.headers().frameOptions().disable();
-	      
-	      http.requiresChannel()
-	      .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-	      .requiresSecure();
 	  }
 	 	
 }	
